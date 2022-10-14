@@ -1,14 +1,13 @@
 {
-	"name": "eo-lsp",
+	"name": "eo-vscode",
 	"description": "A language server for the Elegant Objects language",
 	"author": "Eduardo Fernandes, Anatoliy Baskakov, Roman Nabiullin",
 	"license": "MIT",
 	"version": "1.0.0",
 	"repository": {
 		"type": "git",
-		"url": "TODO"
+		"url": "https://github.com/EOLangVSCode/eo-vscode"
 	},
-	"publisher": "TODO",
 	"categories": [],
 	"keywords": [
 		"TODO"
@@ -80,7 +79,7 @@
 	"devDependencies": {
 		"@types/mocha": "^9.1.0",
 		"@types/node": "^16.11.7",
-		"@types/vscode": "^1.72.0",
+		"@types/vscode": "^1.63.0",
 		"@typescript-eslint/eslint-plugin": "^5.30.0",
 		"@typescript-eslint/parser": "^5.30.0",
 		"eslint": "^8.13.0",

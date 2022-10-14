@@ -8,7 +8,7 @@
 	"publisher": "vscode",
 	"repository": {
 		"type": "git",
-		"url": "TODO"
+		"url": "https://github.com/EOLangVSCode/eo-vscode"
 	},
 	"engines": {
 		"vscode": "^1.63.0"
