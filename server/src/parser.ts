@@ -63,7 +63,7 @@ function getTokensNames(path: string): Map<string, string> {
 
 export function getTokens(input: string): {name: string, start: number, stop: number}[] {
 	const type2name = getTokensNames(path.join(__dirname, "../resources/ProgramLexer.tokens"));
-	const processor = new Processor(input);
+	var processor = new Processor(input);
 	
 	const tokenList: any[] = [];
 	processor.tokenStream.fill();
