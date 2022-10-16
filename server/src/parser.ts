@@ -41,7 +41,7 @@ class Error {
 }
 
 class ErrorListener implements ANTLRErrorListener<Token> {
-	errorList: Error[] = []
+	errorList: Error[] = [];
 	
 	syntaxError(recognizer: Recognizer<Token, any>, offendingSymbol: Token | undefined, line: number, charPositionInLine: number, msg: string, e: RecognitionException | undefined) {
 		this.errorList.push(new Error(line, charPositionInLine, msg));
@@ -49,26 +49,26 @@ class ErrorListener implements ANTLRErrorListener<Token> {
 }
 
 function getTokensNames(path: string): Map<string, string> {
-    var type2name = new Map<string, string>();
-    var text = fs.readFileSync(path, {encoding: 'utf-8'});
-    var tokens = text.split("\n");
+    const type2name = new Map<string, string>();
+    const text = fs.readFileSync(path, {encoding: 'utf-8'});
+    const tokens = text.split("\n");
     tokens.forEach((element: any) => {
         if(element[0] != '\'' && element.length > 1) {
-            var pair = element.split("=");
+            const pair = element.split("=");
             type2name.set(pair[1], pair[0]);
         }
-    })
+    });
     return type2name;
 }
 
 export function getTokens(input: string): {name: string, start: number, stop: number}[] {
-	var type2name = getTokensNames(path.join(__dirname, "../resources/ProgramLexer.tokens"));
-	let processor = new Processor(input);
+	const type2name = getTokensNames(path.join(__dirname, "../resources/ProgramLexer.tokens"));
+	const processor = new Processor(input);
 	
-	var tokenList: any[] = [];
+	const tokenList: any[] = [];
 	processor.tokenStream.fill();
 
-	var tokens = processor.tokenStream.getTokens();
+	const tokens = processor.tokenStream.getTokens();
 
 	tokens.forEach((element: Token) => {
 		tokenList.push({
@@ -85,8 +85,8 @@ export function getTokens(input: string): {name: string, start: number, stop: nu
 }
 
 export function getParserErrors(input: string): Error[] {
-	let processor = new Processor(input);
-	let errorListener = new ErrorListener();
+	const processor = new Processor(input);
+	const errorListener = new ErrorListener();
 	processor.parser.addErrorListener(errorListener);
 	processor.parser.program();
 	return errorListener.errorList;

@@ -142,7 +142,7 @@ async function validateTextDocument(textDocument: TextDocument): Promise<void> {
 
 	const diagnostics: Diagnostic[] = [];
 
-	var errors = getParserErrors(text);
+	const errors = getParserErrors(text);
 	
 	errors.forEach((error) => {
 		const diagnostic: Diagnostic = {
@@ -155,10 +155,9 @@ async function validateTextDocument(textDocument: TextDocument): Promise<void> {
 			source: 'ex'
 		};
 		diagnostics.push(diagnostic);
-
 	});
 
-
+	console.log(getTokens(text));
 	// Send the computed diagnostics to VSCode.
 	connection.sendDiagnostics({ uri: textDocument.uri, diagnostics });
 }
