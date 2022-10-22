@@ -5,6 +5,7 @@ on:
       - main
       - development
 
+
 jobs:
   build:
     name: Build
