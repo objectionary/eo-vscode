@@ -2,7 +2,8 @@ name: Build
 on:
   push:
     branches:
-      - main
+      - sonarcloud
+
 jobs:
   build:
     name: Build
@@ -19,6 +20,7 @@ jobs:
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
+
       - name: Node ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
@@ -31,6 +33,13 @@ jobs:
       - name: ESLinter
         run: |
           npm run lint
+
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          
       # - uses: sonarsource/sonarqube-scan-action@master
       #   env:
       #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
