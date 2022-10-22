@@ -85,9 +85,15 @@ export function getTokens(input: string): {name: string, start: number, stop: nu
 }
 
 export function getParserErrors(input: string): Error[] {
+	if(1 == 2) {
+		console.log("testing");
+	} else {
+		console.log("testing 2");
+	}
 	const processor = new Processor(input);
 	const errorListener = new ErrorListener();
 	processor.parser.addErrorListener(errorListener);
 	processor.parser.program();
 	return errorListener.errorList;
+	console.log("testing 3");
 }
