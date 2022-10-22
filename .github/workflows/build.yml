@@ -2,7 +2,8 @@ name: Build
 on:
   push:
     branches:
-      - sonarcloud
+      - main
+      - development
 
 jobs:
   build:
