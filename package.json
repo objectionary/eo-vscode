@@ -1,16 +1,21 @@
 {
-	"name": "eo-vscode",
-	"description": "A language server for the Elegant Objects language",
+	"name": "eo",
+	"version": "0.0.1",
+	"publisher": "eolang",
+	"displayName": "EO",
+	"description": "A language extension for the EO Programming Language. Provides syntax highlighting and parsing error checking.",
 	"author": "Eduardo Fernandes, Anatoliy Baskakov, Roman Nabiullin",
-	"license": "MIT",
-	"version": "1.0.0",
+	"license": "SEE LICENSE IN LICENSE.txt",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/EOLangVSCode/eo-vscode"
 	},
-	"categories": [],
+	"categories": [
+		"Programming Languages"
+	],
 	"keywords": [
-		"TODO"
+		"eo",
+		"eolang"
 	],
 	"engines": {
 		"vscode": "^1.63.0"
@@ -19,6 +24,7 @@
 		"onLanguage:eo"
 	],
 	"main": "./client/out/extension",
+	"icon": "icons/cactus-128.png",
 	"contributes": {
 		"languages": [
 			{
@@ -32,15 +38,15 @@
 				],
 				"configuration": "./language-configuration.json",
 				"icon": {
-					"light": "./icons/pluginIcon.svg",
-					"dark": "./icons/pluginIcon.svg"
+					"light": "./icons/cactus-128.png",
+					"dark": "./icons/cactus-128.png"
 				}
 			}
 		],
 		"grammars": [
 			{
 				"language": "eo",
-				"scopeName": "main.eo",
+				"scopeName": "source.eo",
 				"path": "./syntaxes/eo.tmLanguage.json"
 			}
 		],
@@ -86,6 +92,7 @@
 		"eslint": "^8.13.0",
 		"js-yaml": "^4.1.0",
 		"mocha": "^9.2.1",
-		"typescript": "^4.8.4"
+		"typescript": "^4.8.4",
+		"vsce": "^2.13.0"
 	}
 }
