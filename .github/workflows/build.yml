@@ -8,6 +8,11 @@ on:
 jobs:
   build:
     name: Build
+
+    strategy:
+      matrix:
+        node-version: [16.x]
+
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -40,7 +45,15 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+      - name: Download and Build Grammar
+        run: |
+          cd server
+          npm run get-grammar
+          npm run build-parser
+          cd ..
           
       - name: Pre-publish routine
         run: |
+          npm run convert-yaml
           npm run vscode:prepublish

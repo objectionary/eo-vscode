@@ -2,3 +2,7 @@ out
 node_modules
 client/server
 .vscode-test
+server/resources/*
+!server/resources/docs.txt
+server/parser/*
+!server/parser/docs.txt
