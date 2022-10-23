@@ -4,5 +4,5 @@ client/server
 .vscode-test
 server/resources/*
 !server/resources/docs.txt
-server/parser/*
-!server/parser/docs.txt
+server/src/parser/*
+!server/src/parser/docs.txt
