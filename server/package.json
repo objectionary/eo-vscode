@@ -1,6 +1,6 @@
 {
-	"name": "lsp-sample-server",
-	"description": "Example implementation of a language server in node.",
+	"name": "eo-vscode-server",
+	"description": "Language Server for a syntax highlighter for the EO Language",
 	"version": "1.0.0",
 	"author": "Eduardo Fernandes, Anatoliy Baskakov, Roman Nabiullin",
 	"license": "MIT",
