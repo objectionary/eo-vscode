@@ -8,6 +8,10 @@ install: |
   nvm install 16
   npm install -g vsce
 release:
+  commanders:
+    - EduardoFernandes1410
+    - Anatolay
+    - whutao
   script: |
     [[ "${tag}" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]] || exit -1
     npm version ${tag}
@@ -16,7 +20,3 @@ release:
     npm run convert-yaml && npm run vscode:prepublish
     cat ../pat.txt | vsce login eolang
     vsce publish
-  commanders:
-  - EduardoFernandes1410
-  - Anatolay
-  - whutao
