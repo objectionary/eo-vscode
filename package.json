@@ -32,8 +32,8 @@
 				],
 				"configuration": "./language-configuration.json",
 				"icon": {
-					"light": "./icons/pluginIcon.svg",
-					"dark": "./icons/pluginIcon.svg"
+					"light": "./icons/cactus-128.png",
+					"dark": "./icons/cactus-128.png"
 				}
 			}
 		],
