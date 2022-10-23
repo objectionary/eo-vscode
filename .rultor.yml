@@ -13,7 +13,7 @@ install: |
 release:
   script: |-
     [[ "${tag}" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]] || exit -1
-    npm version ${tag}
+    npm version ${tag} --no-git-tag-version
     npm install
     cd server && npm run get-grammar && npm run build-parser && cd ..
     npm run convert-yaml && npm run vscode:prepublish
