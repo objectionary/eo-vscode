@@ -16,3 +16,7 @@ release:
     npm run convert-yaml && npm run vscode:prepublish
     cat ../pat.txt | vsce login eolang
     vsce publish
+  commanders:
+  - EduardoFernandes1410
+  - Anatolay
+  - whutao
