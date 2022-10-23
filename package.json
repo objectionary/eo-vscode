@@ -1,6 +1,6 @@
 {
 	"name": "eo",
-	"version": "0.0.0",
+	"version": "0.0.1",
 	"publisher": "eolang",
 	"displayName": "EO",
 	"description": "A language extension for the EO Programming Language. Provides syntax highlighting and parsing error checking.",
@@ -46,7 +46,7 @@
 		"grammars": [
 			{
 				"language": "eo",
-				"scopeName": "main.eo",
+				"scopeName": "source.eo",
 				"path": "./syntaxes/eo.tmLanguage.json"
 			}
 		],
