@@ -46,7 +46,7 @@
 		"grammars": [
 			{
 				"language": "eo",
-				"scopeName": "main.eo",
+				"scopeName": "source.eo",
 				"path": "./syntaxes/eo.tmLanguage.json"
 			}
 		],
