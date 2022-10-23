@@ -1,6 +1,6 @@
 {
 	"name": "eo",
-	"version": "0.0.1",
+	"version": "0.0.0",
 	"publisher": "eolang",
 	"displayName": "EO",
 	"description": "A language extension for the EO Programming Language. Provides syntax highlighting and parsing error checking.",
