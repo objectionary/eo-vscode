@@ -3,7 +3,7 @@ import * as path from 'path';
 import { 
 	CharStreams, 
 	CommonTokenStream, 
-	Token, 
+	Token as AntlrToken, 
 	CodePointCharStream, 
 	ANTLRErrorListener,
 	Recognizer,
@@ -40,19 +40,21 @@ class Error {
 	}
 }
 
-class ErrorListener implements ANTLRErrorListener<Token> {
+class ErrorListener implements ANTLRErrorListener<AntlrToken> {
 	errorList: Error[] = []
 	
-	syntaxError(recognizer: Recognizer<Token, any>, offendingSymbol: Token | undefined, line: number, charPositionInLine: number, msg: string, e: RecognitionException | undefined) {
+	syntaxError(recognizer: Recognizer<AntlrToken, any>, offendingSymbol: AntlrToken | undefined, line: number, charPositionInLine: number, msg: string, e: RecognitionException | undefined) {
 		this.errorList.push(new Error(line, charPositionInLine, msg));
 	}
 }
+
+let typesToNames: Map<String, String> | undefined
 
 function getTokensNames(path: string): Map<string, string> {
     var type2name = new Map<string, string>();
     var text = fs.readFileSync(path, {encoding: 'utf-8'});
     var tokens = text.split("\n");
-    tokens.forEach((element: any) => {
+    tokens.forEach((element) => {
         if(element[0] != '\'' && element.length > 1) {
             var pair = element.split("=");
             type2name.set(pair[1], pair[0]);
@@ -61,26 +63,51 @@ function getTokensNames(path: string): Map<string, string> {
     return type2name;
 }
 
-export function getTokens(input: string): {name: string, start: number, stop: number}[] {
-	var type2name = getTokensNames(path.join(__dirname, "../resources/ProgramLexer.tokens"));
-	let processor = new Processor(input);
+let tokenTypes: { type: string, num: number }[] | undefined = undefined
+
+export function getTokenTypes(): { type: string, num: number }[] {
+	if (!tokenTypes) {
+		tokenTypes = []
+		const tokensPath = path.join(__dirname, "../resources/ProgramLexer.tokens")
+		const text = fs.readFileSync(tokensPath, {encoding: 'utf-8'})
+		text.split('\n').forEach(elem => {
+			if (elem[0] != "\'") {
+				const pair = elem.split('=')
+				tokenTypes!.push({ type: pair[0], num: parseInt(pair[1]) })
+			}
+		})
+	}
 	
-	var tokenList: any[] = [];
+	return tokenTypes
+}
+
+export type Token = {
+	line: number
+	start: number
+	length: number
+	tokenType: number
+	tokenModifier: number
+}
+
+export function tokenize(input: string): Token[] {
+	// if (!typesToNames) {
+		// typesToNames = getTokensNames(path.join(__dirname, "../resources/ProgramLexer.tokens"))
+	// }
+	// const type2name = typesToNames // avoid using bangs to prove that `typesToNames` is defined
+	const processor = new Processor(input);
+	const tokenList: Token[] = [];
 	processor.tokenStream.fill();
-
-	var tokens = processor.tokenStream.getTokens();
-
-	tokens.forEach((element: Token) => {
+	const antlrTokens = processor.tokenStream.getTokens();
+	antlrTokens.forEach((element: AntlrToken) => {
 		tokenList.push({
-			"length": element.stopIndex - element.startIndex + 1,
-			"name": type2name.get(String(element.type)),
-			"line": element.line,
-			"column": element.charPositionInLine,
-			"start": element.startIndex,
-			"stop": element.stopIndex
+			line: element.line,
+			start: element.startIndex,
+			length: element.stopIndex - element.startIndex + 1,
+			tokenType: element.type,
+			tokenModifier: 0,
 		});
 	});
-		
+
 	return tokenList;
 }
 
