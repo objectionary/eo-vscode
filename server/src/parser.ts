@@ -13,7 +13,6 @@ import {
 import { ProgramLexer } from './parser/ProgramLexer';
 import { ProgramParser } from './parser/ProgramParser';
 
-
 class Processor {
 	inputStream: CodePointCharStream;
 	lexer: ProgramLexer;
@@ -49,63 +48,12 @@ class ErrorListener implements ANTLRErrorListener<AntlrToken> {
 }
 
 /**
- * A map from EO's g4 grammar token types into
- * token types supported by VS Code
- * 
- * Needs update with a proper, fine-tuned mapping
- * 
- * List of VS Code's token types:
- * [
- * 	 'namespace',     'type',
- * 	 'class',         'enum',
- * 	 'interface',     'struct',
- * 	 'typeParameter', 'parameter',
- * 	 'variable',      'property',
- * 	 'enumMember',    'event',
- * 	 'function',      'method',
- * 	 'macro',         'keyword',
- * 	 'modifier',      'comment',
- * 	 'string',        'number',
- * 	 'regexp',        'operator'
- * ]
+ * Antlr lexer returns token types as numbers
+ * This converts a type number into textual token type like "META"
  */
-const tokenTypeMap : Map<string, string> = new Map()
-tokenTypeMap.set('COMMENT', 'comment')
-tokenTypeMap.set('META', 'macro')
-tokenTypeMap.set('ROOT', 'keyword')
-tokenTypeMap.set('HOME', 'keyword')
-tokenTypeMap.set('STAR', 'operator')
-tokenTypeMap.set('DOTS', 'operator')
-tokenTypeMap.set('CONST', 'keyword')
-tokenTypeMap.set('SLASH', 'operator')
-tokenTypeMap.set('COLON', 'operator')
-tokenTypeMap.set('COPY', 'class')
-tokenTypeMap.set('ARROW', 'method')
-tokenTypeMap.set('VERTEX', 'class')
-tokenTypeMap.set('SIGMA', 'method')
-tokenTypeMap.set('XI', 'method')
-tokenTypeMap.set('PLUS', 'operator')
-tokenTypeMap.set('MINUS', 'operator')
-tokenTypeMap.set('QUESTION', 'operator')
-// tokenTypeMap.set('SPACE', '')
-// tokenTypeMap.set('DOT', '')
-// tokenTypeMap.set('LSQ', '')
-// tokenTypeMap.set('RSQ', '')
-// tokenTypeMap.set('LB', '')
-// tokenTypeMap.set('RB', '')
-tokenTypeMap.set('AT', 'method')
-tokenTypeMap.set('RHO', 'method')
-tokenTypeMap.set('HASH', 'keyword')
-// tokenTypeMap.set('EOL', '')
-tokenTypeMap.set('BYTES', 'number')
-tokenTypeMap.set('BOOL', 'variable')
-tokenTypeMap.set('STRING', 'string')
-tokenTypeMap.set('INT', 'number')
-tokenTypeMap.set('FLOAT', 'number')
-tokenTypeMap.set('HEX', 'number')
-tokenTypeMap.set('NAME', 'variable')
-tokenTypeMap.set('TEXT', 'string')
-// tokenTypeMap.set('BAD_CHARACTER', '')
+export function antlrTypeNumToString(num: number): string {
+	return ProgramLexer.ruleNames[num - 1]
+}
 
 let tokenTypes: Set<string> | undefined = undefined
 
@@ -117,10 +65,7 @@ export function getTokenTypes(): Set<string> {
 		text.split('\n').forEach(elem => {
 			if (elem[0] != "\'") {
 				const pair = elem.split('=')
-				const type = tokenTypeMap.get(pair[0])
-				if (type) {
-					tokenTypes!.add(type)
-				}
+				tokenTypes!.add(pair[0])
 			}
 		})
 	}
@@ -128,34 +73,7 @@ export function getTokenTypes(): Set<string> {
 	return tokenTypes
 }
 
-export type Token = {
-	line: number
-	start: number
-	length: number
-	tokenType: number
-	tokenModifier: number
-}
-
-export function tokenize(input: string): Token[] {
-	const processor = new Processor(input);
-	const tokenList: Token[] = [];
-	processor.tokenStream.fill();
-	const antlrTokens = processor.tokenStream.getTokens();
-	antlrTokens.forEach((element: AntlrToken) => {
-		tokenList.push({
-			line: element.line,
-			start: element.startIndex,
-			length: element.stopIndex - element.startIndex + 1,
-			tokenType: element.type,
-			tokenModifier: 0,
-		});
-	});
-
-	return tokenList;
-}
-
-// FIXME: delete this
-export function devTokenize(input: string) {
+export function tokenize(input: string): AntlrToken[] {
 	const processor = new Processor(input)
 	processor.tokenStream.fill()
 	return processor.tokenStream.getTokens()
