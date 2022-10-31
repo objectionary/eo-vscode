@@ -77,10 +77,10 @@ connection.onInitialized(() => {
 			full: {
 				delta: true
 			}
-		};
-		connection.client.register(SemanticTokensRegistrationType.type, registrationOptions);
+		}
+		connection.client.register(SemanticTokensRegistrationType.type, registrationOptions)
 	}
-});
+})
 
 // The example settings
 interface ExampleSettings {
@@ -170,6 +170,22 @@ connection.onDidChangeWatchedFiles(_change => {
 	// Monitored files have change in VSCode
 	connection.console.log('We received an file change event');
 });
+
+connection.languages.semanticTokens.on(params => {
+	const document = documents.get(params.textDocument.uri)
+	if (!document) {
+		return { data: [] }
+	}
+	return semanticTokensProvider.provideSemanticTokens(document)
+})
+
+connection.languages.semanticTokens.onDelta(params => {
+	const document = documents.get(params.textDocument.uri)
+	if (!document) {
+		return { data: [] }
+	}
+	return semanticTokensProvider.provideDeltas(document, params.textDocument.uri)
+})
 
 // Make the text document manager listen on the connection
 // for open, change and close text document events
