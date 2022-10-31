@@ -48,36 +48,83 @@ class ErrorListener implements ANTLRErrorListener<AntlrToken> {
 	}
 }
 
-let typesToNames: Map<String, String> | undefined
+/**
+ * A map from EO's g4 grammar token types into
+ * token types supported by VS Code
+ * 
+ * Needs update with a proper, fine-tuned mapping
+ * 
+ * List of VS Code's token types:
+ * [
+ * 	 'namespace',     'type',
+ * 	 'class',         'enum',
+ * 	 'interface',     'struct',
+ * 	 'typeParameter', 'parameter',
+ * 	 'variable',      'property',
+ * 	 'enumMember',    'event',
+ * 	 'function',      'method',
+ * 	 'macro',         'keyword',
+ * 	 'modifier',      'comment',
+ * 	 'string',        'number',
+ * 	 'regexp',        'operator'
+ * ]
+ */
+const tokenTypeMap : Map<string, string> = new Map()
+tokenTypeMap.set('COMMENT', 'comment')
+tokenTypeMap.set('META', 'macro')
+tokenTypeMap.set('ROOT', 'keyword')
+tokenTypeMap.set('HOME', 'keyword')
+tokenTypeMap.set('STAR', 'operator')
+tokenTypeMap.set('DOTS', 'operator')
+tokenTypeMap.set('CONST', 'keyword')
+tokenTypeMap.set('SLASH', 'operator')
+tokenTypeMap.set('COLON', 'operator')
+tokenTypeMap.set('COPY', 'class')
+tokenTypeMap.set('ARROW', 'method')
+tokenTypeMap.set('VERTEX', 'class')
+tokenTypeMap.set('SIGMA', 'method')
+tokenTypeMap.set('XI', 'method')
+tokenTypeMap.set('PLUS', 'operator')
+tokenTypeMap.set('MINUS', 'operator')
+tokenTypeMap.set('QUESTION', 'operator')
+// tokenTypeMap.set('SPACE', '')
+// tokenTypeMap.set('DOT', '')
+// tokenTypeMap.set('LSQ', '')
+// tokenTypeMap.set('RSQ', '')
+// tokenTypeMap.set('LB', '')
+// tokenTypeMap.set('RB', '')
+tokenTypeMap.set('AT', 'method')
+tokenTypeMap.set('RHO', 'method')
+tokenTypeMap.set('HASH', 'keyword')
+// tokenTypeMap.set('EOL', '')
+tokenTypeMap.set('BYTES', 'number')
+tokenTypeMap.set('BOOL', 'variable')
+tokenTypeMap.set('STRING', 'string')
+tokenTypeMap.set('INT', 'number')
+tokenTypeMap.set('FLOAT', 'number')
+tokenTypeMap.set('HEX', 'number')
+tokenTypeMap.set('NAME', 'variable')
+tokenTypeMap.set('TEXT', 'string')
+// tokenTypeMap.set('BAD_CHARACTER', '')
 
-function getTokensNames(path: string): Map<string, string> {
-    var type2name = new Map<string, string>();
-    var text = fs.readFileSync(path, {encoding: 'utf-8'});
-    var tokens = text.split("\n");
-    tokens.forEach((element) => {
-        if(element[0] != '\'' && element.length > 1) {
-            var pair = element.split("=");
-            type2name.set(pair[1], pair[0]);
-        }
-    })
-    return type2name;
-}
+let tokenTypes: Set<string> | undefined = undefined
 
-let tokenTypes: { type: string, num: number }[] | undefined = undefined
-
-export function getTokenTypes(): { type: string, num: number }[] {
+export function getTokenTypes(): Set<string> {
 	if (!tokenTypes) {
-		tokenTypes = []
+		tokenTypes = new Set()
 		const tokensPath = path.join(__dirname, "../resources/ProgramLexer.tokens")
 		const text = fs.readFileSync(tokensPath, {encoding: 'utf-8'})
 		text.split('\n').forEach(elem => {
 			if (elem[0] != "\'") {
 				const pair = elem.split('=')
-				tokenTypes!.push({ type: pair[0], num: parseInt(pair[1]) })
+				const type = tokenTypeMap.get(pair[0])
+				if (type) {
+					tokenTypes!.add(type)
+				}
 			}
 		})
 	}
-	
+
 	return tokenTypes
 }
 
@@ -90,10 +137,6 @@ export type Token = {
 }
 
 export function tokenize(input: string): Token[] {
-	// if (!typesToNames) {
-		// typesToNames = getTokensNames(path.join(__dirname, "../resources/ProgramLexer.tokens"))
-	// }
-	// const type2name = typesToNames // avoid using bangs to prove that `typesToNames` is defined
 	const processor = new Processor(input);
 	const tokenList: Token[] = [];
 	processor.tokenStream.fill();
@@ -109,6 +152,13 @@ export function tokenize(input: string): Token[] {
 	});
 
 	return tokenList;
+}
+
+// FIXME: delete this
+export function devTokenize(input: string) {
+	const processor = new Processor(input)
+	processor.tokenStream.fill()
+	return processor.tokenStream.getTokens()
 }
 
 export function getParserErrors(input: string): Error[] {
