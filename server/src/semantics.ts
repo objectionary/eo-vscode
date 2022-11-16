@@ -88,6 +88,7 @@ export class SemanticTokensProvider {
 		this.tokenTypeMap.set('TEXT', 'string')
 		// this.tokenTypeMap.set('BAD_CHARACTER', '')
 	}
+
 	computeLegend(capability: SemanticTokensClientCapabilities): SemanticTokensLegend {
 		const clientTokenTypes = new Set<string>(capability.tokenTypes)
 
@@ -109,8 +110,8 @@ export class SemanticTokensProvider {
 			const vscodeTokenType = this.tokenTypeMap.get(antlrTypeNumToString(tk.type))
 			const legendNum = vscodeTokenType ? this.legend.tokenTypes.indexOf(vscodeTokenType) : -1
 			tokens.push({
-				line: tk.line,
-				start: tk.startIndex,
+				line: tk.line - 1,
+				start: tk.charPositionInLine,
 				length: tk.stopIndex - tk.startIndex + 1,
 				tokenType: legendNum,
 				tokenModifier: 0,
