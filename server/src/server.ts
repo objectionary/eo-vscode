@@ -20,8 +20,8 @@ import {
 	TextDocument,
 } from 'vscode-languageserver-textdocument';
 
-import { Capabilities } from './capabilities'
-import { SemanticTokensProvider } from './semantics'
+import { Capabilities } from './capabilities';
+import { SemanticTokensProvider } from './semantics';
 import { getParserErrors } from './parser';
 
 // Create a connection for the server, using Node's IPC as a transport.
@@ -31,14 +31,14 @@ const connection = createConnection(ProposedFeatures.all);
 // Create a simple text document manager.
 const documents: TextDocuments<TextDocument> = new TextDocuments(TextDocument);
 
-let clientCapabilities = new Capabilities()
-let semanticTokensProvider: SemanticTokensProvider
+const clientCapabilities = new Capabilities();
+let semanticTokensProvider: SemanticTokensProvider;
 
 
 connection.onInitialize((params: InitializeParams) => {
 	const capabilities = params.capabilities;
-	clientCapabilities.initialize(capabilities)
-	semanticTokensProvider = new SemanticTokensProvider(params.capabilities.textDocument!.semanticTokens!)
+	clientCapabilities.initialize(capabilities);
+	semanticTokensProvider = new SemanticTokensProvider(params.capabilities.textDocument!.semanticTokens!);
 
 	const result: InitializeResult = {
 		capabilities: {
@@ -73,10 +73,10 @@ connection.onInitialized(() => {
 			full: {
 				delta: true
 			}
-		}
-		connection.client.register(SemanticTokensRegistrationType.type, registrationOptions)
+		};
+		connection.client.register(SemanticTokensRegistrationType.type, registrationOptions);
 	}
-})
+});
 
 // The example settings
 interface ExampleSettings {
@@ -141,7 +141,7 @@ async function validateTextDocument(textDocument: TextDocument): Promise<void> {
 
 	const diagnostics: Diagnostic[] = [];
 
-	var errors = getParserErrors(text);
+	const errors = getParserErrors(text);
 
 	errors.forEach((error) => {
 		const diagnostic: Diagnostic = {
@@ -168,20 +168,20 @@ connection.onDidChangeWatchedFiles(_change => {
 });
 
 connection.languages.semanticTokens.on(params => {
-	const document = documents.get(params.textDocument.uri)
+	const document = documents.get(params.textDocument.uri);
 	if (!document) {
-		return { data: [] }
+		return { data: [] };
 	}
-	return semanticTokensProvider.provideSemanticTokens(document)
-})
+	return semanticTokensProvider.provideSemanticTokens(document);
+});
 
 connection.languages.semanticTokens.onDelta(params => {
-	const document = documents.get(params.textDocument.uri)
+	const document = documents.get(params.textDocument.uri);
 	if (!document) {
-		return { data: [] }
+		return { data: [] };
 	}
-	return semanticTokensProvider.provideDeltas(document, params.textDocument.uri)
-})
+	return semanticTokensProvider.provideDeltas(document, params.textDocument.uri);
+});
 
 // Make the text document manager listen on the connection
 // for open, change and close text document events

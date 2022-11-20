@@ -1,17 +1,17 @@
-import { ClientCapabilities } from 'vscode-languageserver'
+import { ClientCapabilities } from 'vscode-languageserver';
 
 export class Capabilities
 {
-	hasConfigurationCapability: boolean
-	hasWorkspaceFolderCapability: boolean
-	hasDiagnosticRelatedInformationCapability: boolean
-	hasDocumentSemanticTokensCapability: boolean
+	hasConfigurationCapability: boolean;
+	hasWorkspaceFolderCapability: boolean;
+	hasDiagnosticRelatedInformationCapability: boolean;
+	hasDocumentSemanticTokensCapability: boolean;
 
 	constructor () {
-		this.hasConfigurationCapability = false
-		this.hasWorkspaceFolderCapability = false
-		this.hasDiagnosticRelatedInformationCapability = false
-		this.hasDocumentSemanticTokensCapability = false
+		this.hasConfigurationCapability = false;
+		this.hasWorkspaceFolderCapability = false;
+		this.hasDiagnosticRelatedInformationCapability = false;
+		this.hasDocumentSemanticTokensCapability = false;
 	}
 
 	initialize (capabilities: ClientCapabilities) {
