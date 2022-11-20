@@ -1,6 +1,6 @@
 {
-	"name": "lsp-sample-server",
-	"description": "Example implementation of a language server in node.",
+	"name": "eo-vscode-server",
+	"description": "Language Server for a syntax highlighter for the EO Language",
 	"version": "1.0.0",
 	"author": "Eduardo Fernandes, Anatoliy Baskakov, Roman Nabiullin",
 	"license": "MIT",
@@ -19,7 +19,8 @@
 		"vscode-languageserver-textdocument": "^1.0.4"
 	},
 	"scripts": {
-		"antlr4ts": "antlr4ts -visitor resources/Program.g4 && mv resources/*.ts src/parser"
+		"get-grammar": "curl https://raw.githubusercontent.com/objectionary/eo/master/eo-parser/src/main/antlr4/org/eolang/parser/Program.g4 > resources/Program.g4",
+		"build-parser": "antlr4ts -visitor resources/Program.g4 && mv resources/*.ts src/parser"
 	},
 	"devDependencies": {
 		"@types/vscode": "^1.63.0",

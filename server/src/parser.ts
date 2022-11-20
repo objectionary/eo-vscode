@@ -96,4 +96,5 @@ export function getParserErrors(input: string): Error[] {
 	processor.parser.addErrorListener(errorListener);
 	processor.parser.program();
 	return errorListener.errorList;
+	
 }

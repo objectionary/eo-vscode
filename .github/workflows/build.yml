@@ -2,22 +2,63 @@ name: Build
 on:
   push:
     branches:
-      - main
+      - master
+      - development
+  pull_request:
+    types: [opened, reopened]
+    branches:
+      - master
+      - development
+
 jobs:
   build:
     name: Build
+
+    strategy:
+      matrix:
+        node-version: [16.x]
+
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
-      - uses: sonarsource/sonarqube-scan-action@master
+
+      - name: Cache node modules
+        uses: actions/cache@v1
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Node ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: npm install
+        run: |
+          npm i
+
+      - name: ESLinter
+        run: |
+          npm run lint
+
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
         env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-      # If you wish to fail your job when the Quality Gate is red, uncomment the
-      # following lines. This would typically be used to fail a deployment.
-      # - uses: sonarsource/sonarqube-quality-gate-action@master
-      #   timeout-minutes: 5
-      #   env:
-      #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+      - name: Download and Build Grammar
+        run: |
+          cd server
+          npm run get-grammar
+          npm run build-parser
+          cd ..
+          
+      - name: Pre-publish routine
+        run: |
+          npm run convert-yaml
+          npm run vscode:prepublish
