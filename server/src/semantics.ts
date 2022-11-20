@@ -72,7 +72,7 @@ export class SemanticTokensProvider {
 		this.tokenTypeMap.set('RHO', 'method');
 		this.tokenTypeMap.set('HASH', 'keyword');
 		this.tokenTypeMap.set('BYTES', 'number');
-		this.tokenTypeMap.set('BOOL', 'variable');
+		this.tokenTypeMap.set('BOOL', 'number');
 		this.tokenTypeMap.set('STRING', 'string');
 		this.tokenTypeMap.set('INT', 'number');
 		this.tokenTypeMap.set('FLOAT', 'number');
@@ -98,6 +98,7 @@ export class SemanticTokensProvider {
 	tokenize(document: TextDocument) {
 		const tokens: VSCodeToken[] = [];
 		const antlrTokens = tokenize(document.getText());
+		console.log(antlrTokens)
 		antlrTokens.forEach(tk => {
 			const vscodeTokenType = this.tokenTypeMap.get(antlrTypeNumToString(tk.type));
 			const legendNum = vscodeTokenType ? this.legend.tokenTypes.indexOf(vscodeTokenType) : -1;
