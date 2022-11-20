@@ -1,0 +1,19 @@
++package sandbox
+
+[n] > fibonacci
+  if. > @
+    n.lt 3
+    small n
+    rec n 1 1
+
+  [n] > small
+    if. > @
+      n.eq 2
+      1
+      n
+
+  [n minus1 minus2] > rec
+    if. > @
+      n.eq 3
+      minus1.plus minus2
+      rec (n.minus 1) (minus1.plus minus2) minus1
