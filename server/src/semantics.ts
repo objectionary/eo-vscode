@@ -1,3 +1,4 @@
+import { ConsoleErrorListener } from 'antlr4ts'
 import
 {
 	SemanticTokensBuilder,

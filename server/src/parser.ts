@@ -47,30 +47,41 @@ class ErrorListener implements ANTLRErrorListener<AntlrToken> {
 	}
 }
 
+let tokenTypes: Set<string> | undefined = undefined
+let tokenNumToString: Map<number, string> | undefined = undefined
+
+function buildTokenSetAndMap() {
+	if (!tokenTypes || !tokenNumToString) {
+		tokenTypes = new Set<string>()
+		tokenNumToString = new Map<number, string>()
+		const tokensPath = path.join(__dirname, "../resources/ProgramLexer.tokens")
+		try {
+			const text = fs.readFileSync(tokensPath, {encoding: 'utf-8'})
+			text.split('\n').forEach(elem => {
+				if (elem[0] != "\'") {
+					const pair = elem.split('=')
+					tokenTypes!.add(pair[0])
+					tokenNumToString!.set(Number(pair[1]), pair[0])
+				}
+			})
+		} catch (e) {
+			console.log(e)
+		}
+	}
+}
+
 /**
  * Antlr lexer returns token types as numbers
  * This converts a type number into textual token type like "META"
  */
 export function antlrTypeNumToString(num: number): string {
-	return ProgramLexer.ruleNames[num - 1]
+	buildTokenSetAndMap()
+	return tokenNumToString!.get(num)!
 }
 
-let tokenTypes: Set<string> | undefined = undefined
-
 export function getTokenTypes(): Set<string> {
-	if (!tokenTypes) {
-		tokenTypes = new Set()
-		const tokensPath = path.join(__dirname, "../resources/ProgramLexer.tokens")
-		const text = fs.readFileSync(tokensPath, {encoding: 'utf-8'})
-		text.split('\n').forEach(elem => {
-			if (elem[0] != "\'") {
-				const pair = elem.split('=')
-				tokenTypes!.add(pair[0])
-			}
-		})
-	}
-
-	return tokenTypes
+	buildTokenSetAndMap()
+	return tokenTypes!
 }
 
 export function tokenize(input: string): AntlrToken[] {
