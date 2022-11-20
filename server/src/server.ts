@@ -101,7 +101,7 @@ connection.onDidChangeConfiguration(change => {
 	documents.all().forEach(validateTextDocument);
 });
 
-function getDocumentSettings(resource: string): Thenable<ExampleSettings> {
+function getDocumentSettings(resource: string): Thenable<DefaultSettings> {
 	if (!clientCapabilities.hasConfigurationCapability) {
 		return Promise.resolve(globalSettings);
 	}
@@ -155,7 +155,6 @@ async function validateTextDocument(textDocument: TextDocument): Promise<void> {
 		diagnostics.push(diagnostic);
 	});
 
-	console.log(getTokens(text));
 	// Send the computed diagnostics to VSCode.
 	connection.sendDiagnostics({ uri: textDocument.uri, diagnostics });
 }
