@@ -1,7 +1,7 @@
 {
-	"name": "eo-lang",
+	"name": "eo-vscode-client",
 	"displayName": "EO Lang",
-	"description": "Syntax highlighter for the EO Language",
+	"description": "Client for a syntax highlighter for the EO Language",
 	"author": "Eduardo Fernandes, Anatoliy Baskakov, Roman Nabiullin",
 	"license": "MIT",
 	"version": "0.0.1",

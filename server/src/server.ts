@@ -1,7 +1,3 @@
-/* --------------------------------------------------------------------------------------------
- * Copyright (c) Microsoft Corporation. All rights reserved.
- * Licensed under the MIT License. See License.txt in the project root for license information.
- * ------------------------------------------------------------------------------------------ */
 import {
 	createConnection,
 	TextDocuments,
@@ -78,26 +74,25 @@ connection.onInitialized(() => {
 	}
 })
 
-// The example settings
-interface ExampleSettings {
+interface DefaultSettings {
 	maxNumberOfProblems: number;
 }
 
 // The global settings, used when the `workspace/configuration` request is not supported by the client.
 // Please note that this is not the case when using this server with the client provided in this example
 // but could happen with other clients.
-const defaultSettings: ExampleSettings = { maxNumberOfProblems: 1000 };
-let globalSettings: ExampleSettings = defaultSettings;
+const defaultSettings: DefaultSettings = { maxNumberOfProblems: 1000 };
+let globalSettings: DefaultSettings = defaultSettings;
 
 // Cache the settings of all open documents
-const documentSettings: Map<string, Thenable<ExampleSettings>> = new Map();
+const documentSettings: Map<string, Thenable<DefaultSettings>> = new Map();
 
 connection.onDidChangeConfiguration(change => {
 	if (clientCapabilities.hasConfigurationCapability) {
 		// Reset all cached document settings
 		documentSettings.clear();
 	} else {
-		globalSettings = <ExampleSettings>(
+		globalSettings = <DefaultSettings>(
 			(change.settings.languageServerExample || defaultSettings)
 		);
 	}
@@ -141,9 +136,13 @@ async function validateTextDocument(textDocument: TextDocument): Promise<void> {
 
 	const diagnostics: Diagnostic[] = [];
 
-	var errors = getParserErrors(text);
-
-	errors.forEach((error) => {
+	const errors = getParserErrors(text);
+	
+	errors.forEach((error, index) => {
+		if(index >= settings.maxNumberOfProblems) {
+			return;
+		}
+		
 		const diagnostic: Diagnostic = {
 			severity: DiagnosticSeverity.Warning,
 			range: {
@@ -154,10 +153,9 @@ async function validateTextDocument(textDocument: TextDocument): Promise<void> {
 			source: 'ex'
 		};
 		diagnostics.push(diagnostic);
-
 	});
 
-
+	console.log(getTokens(text));
 	// Send the computed diagnostics to VSCode.
 	connection.sendDiagnostics({ uri: textDocument.uri, diagnostics });
 }

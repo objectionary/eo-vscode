@@ -91,9 +91,10 @@ export function tokenize(input: string): AntlrToken[] {
 }
 
 export function getParserErrors(input: string): Error[] {
-	let processor = new Processor(input);
-	let errorListener = new ErrorListener();
+	const processor = new Processor(input);
+	const errorListener = new ErrorListener();
 	processor.parser.addErrorListener(errorListener);
 	processor.parser.program();
 	return errorListener.errorList;
+	
 }
