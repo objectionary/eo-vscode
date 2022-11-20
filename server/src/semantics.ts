@@ -1,4 +1,3 @@
-import { ConsoleErrorListener } from 'antlr4ts';
 import
 {
 	SemanticTokensBuilder,
@@ -69,16 +68,9 @@ export class SemanticTokensProvider {
 		this.tokenTypeMap.set('PLUS', 'operator');
 		this.tokenTypeMap.set('MINUS', 'operator');
 		this.tokenTypeMap.set('QUESTION', 'operator');
-		// this.tokenTypeMap.set('SPACE', '')
-		// this.tokenTypeMap.set('DOT', '')
-		// this.tokenTypeMap.set('LSQ', '')
-		// this.tokenTypeMap.set('RSQ', '')
-		// this.tokenTypeMap.set('LB', '')
-		// this.tokenTypeMap.set('RB', '')
 		this.tokenTypeMap.set('AT', 'method');
 		this.tokenTypeMap.set('RHO', 'method');
 		this.tokenTypeMap.set('HASH', 'keyword');
-		// this.tokenTypeMap.set('EOL', '')
 		this.tokenTypeMap.set('BYTES', 'number');
 		this.tokenTypeMap.set('BOOL', 'variable');
 		this.tokenTypeMap.set('STRING', 'string');
@@ -87,7 +79,6 @@ export class SemanticTokensProvider {
 		this.tokenTypeMap.set('HEX', 'number');
 		this.tokenTypeMap.set('NAME', 'variable');
 		this.tokenTypeMap.set('TEXT', 'string');
-		// this.tokenTypeMap.set('BAD_CHARACTER', '')
 	}
 
 	computeLegend(capability: SemanticTokensClientCapabilities): SemanticTokensLegend {
