@@ -3,7 +3,7 @@ import * as path from 'path';
 import { 
 	CharStreams, 
 	CommonTokenStream, 
-	Token, 
+	Token as AntlrToken, 
 	CodePointCharStream, 
 	ANTLRErrorListener,
 	Recognizer,
@@ -12,7 +12,6 @@ import {
 
 import { ProgramLexer } from './parser/ProgramLexer';
 import { ProgramParser } from './parser/ProgramParser';
-
 
 class Processor {
 	inputStream: CodePointCharStream;
@@ -40,48 +39,55 @@ class Error {
 	}
 }
 
-class ErrorListener implements ANTLRErrorListener<Token> {
+class ErrorListener implements ANTLRErrorListener<AntlrToken> {
 	errorList: Error[] = [];
 	
-	syntaxError(recognizer: Recognizer<Token, any>, offendingSymbol: Token | undefined, line: number, charPositionInLine: number, msg: string, e: RecognitionException | undefined) {
+	syntaxError(recognizer: Recognizer<AntlrToken, any>, offendingSymbol: AntlrToken | undefined, line: number, charPositionInLine: number, msg: string, e: RecognitionException | undefined) {
 		this.errorList.push(new Error(line, charPositionInLine, msg));
 	}
 }
 
-function getTokensNames(path: string): Map<string, string> {
-    const type2name = new Map<string, string>();
-    const text = fs.readFileSync(path, {encoding: 'utf-8'});
-    const tokens = text.split("\n");
-    tokens.forEach((element: any) => {
-        if(element[0] != '\'' && element.length > 1) {
-            const pair = element.split("=");
-            type2name.set(pair[1], pair[0]);
-        }
-    });
-    return type2name;
+let tokenTypes: Set<string> | undefined = undefined;
+let tokenNumToString: Map<number, string> | undefined = undefined;
+
+function buildTokenSetAndMap() {
+	if (!tokenTypes || !tokenNumToString) {
+		tokenTypes = new Set<string>();
+		tokenNumToString = new Map<number, string>();
+		const tokensPath = path.join(__dirname, "../resources/ProgramLexer.tokens");
+		try {
+			const text = fs.readFileSync(tokensPath, {encoding: 'utf-8'});
+			text.split('\n').forEach(elem => {
+				if (elem[0] != "'") {
+					const pair = elem.split('=');
+					tokenTypes!.add(pair[0]);
+					tokenNumToString!.set(Number(pair[1]), pair[0]);
+				}
+			});
+		} catch (e) {
+			console.log(e);
+		}
+	}
 }
 
-export function getTokens(input: string): {name: string, start: number, stop: number}[] {
-	const type2name = getTokensNames(path.join(__dirname, "../resources/ProgramLexer.tokens"));
+/**
+ * Antlr lexer returns token types as numbers
+ * This converts a type number into textual token type like "META"
+ */
+export function antlrTypeNumToString(num: number): string {
+	buildTokenSetAndMap();
+	return tokenNumToString!.get(num)!;
+}
+
+export function getTokenTypes(): Set<string> {
+	buildTokenSetAndMap();
+	return tokenTypes!;
+}
+
+export function tokenize(input: string): AntlrToken[] {
 	const processor = new Processor(input);
-	
-	const tokenList: any[] = [];
 	processor.tokenStream.fill();
-
-	const tokens = processor.tokenStream.getTokens();
-
-	tokens.forEach((element: Token) => {
-		tokenList.push({
-			"length": element.stopIndex - element.startIndex + 1,
-			"name": type2name.get(String(element.type)),
-			"line": element.line,
-			"column": element.charPositionInLine,
-			"start": element.startIndex,
-			"stop": element.stopIndex
-		});
-	});
-		
-	return tokenList;
+	return processor.tokenStream.getTokens();
 }
 
 export function getParserErrors(input: string): Error[] {
