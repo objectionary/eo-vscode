@@ -72,7 +72,7 @@ export class SemanticTokensProvider {
 		this.tokenTypeMap.set('RHO', 'method');
 		this.tokenTypeMap.set('HASH', 'keyword');
 		this.tokenTypeMap.set('BYTES', 'number');
-		this.tokenTypeMap.set('BOOL', 'variable');
+		this.tokenTypeMap.set('BOOL', 'number');
 		this.tokenTypeMap.set('STRING', 'string');
 		this.tokenTypeMap.set('INT', 'number');
 		this.tokenTypeMap.set('FLOAT', 'number');
