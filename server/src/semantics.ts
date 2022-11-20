@@ -96,7 +96,7 @@ export class SemanticTokensProvider {
 	}
 
 	tokenize(document: TextDocument) {
-		const tokens: VSCodeToken[] = [];
+		var tokens: VSCodeToken[] = [];
 		const antlrTokens = tokenize(document.getText());
 		antlrTokens.forEach(tk => {
 			const vscodeTokenType = this.tokenTypeMap.get(antlrTypeNumToString(tk.type));
