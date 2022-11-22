@@ -1,7 +1,7 @@
 docker:
   image: yegor256/rultor-image:1.13.0
 assets:
-  pat.txt: EOLangVSCode/secrets#azure-devops-pat.txt
+  pat.txt: yegor256/objectionary-secrets#azure-devops-pat.txt
 install: |
   curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.2/install.sh | bash
   source ~/.bashrc
