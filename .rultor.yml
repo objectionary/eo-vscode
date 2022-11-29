@@ -1,21 +1,21 @@
 docker:
-  image: yegor256/rultor-image:1.13.0
+    image: yegor256/rultor-image:1.13.0
 assets:
-  pat.txt: yegor256/objectionary-secrets#azure-devops-pat.txt
+    pat.txt: yegor256/objectionary-secrets#azure-devops-pat.txt
 install: |
-  curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.2/install.sh | bash
-  source ~/.bashrc
-  export NVM_DIR="$HOME/.nvm"
-  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
-  nvm install 16
-  npm install -g vsce
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.2/install.sh | bash
+    source ~/.bashrc
+    export NVM_DIR="$HOME/.nvm"
+    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+    [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+    nvm install 16
+    npm install -g vsce
 release:
-  script: |-
-    [[ "${tag}" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]] || exit -1
-    npm version ${tag} --no-git-tag-version
-    npm install
-    npm run fetch-and-build-grammar
-    npm run convert-yaml && npm run vscode:prepublish
-    cat ../pat.txt | vsce login eolang
-    vsce publish
+    script: |-
+      [[ "${tag}" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]] || exit -1
+      npm version ${tag} --no-git-tag-version
+      npm install
+      npm run fetch-and-build-grammar
+      npm run convert-yaml && npm run vscode:prepublish
+      cat ../pat.txt | vsce login eolang
+      vsce publish
