@@ -4,10 +4,10 @@
 [![DevOps By Rultor.com](https://www.rultor.com/b/objectionary/eo)](http://www.rultor.com/p/objectionary/eo)
 [<img src="https://sonarcloud.io/images/project_badges/sonarcloud-black.svg" width="120" alt="SonarCloud">](https://sonarcloud.io/summary/new_code?id=EOLangVSCode_eo-vscode)
 
-![Lines of code](https://img.shields.io/tokei/lines/github/EOLangVSCode/eo-vscode)
-![GitHub Workflow Status (branch)](https://img.shields.io/github/workflow/status/EOLangVSCode/eo-vscode/Build/master)
+![Lines of code](https://img.shields.io/tokei/lines/github/objectionary/eo-vscode)
+![GitHub Workflow Status (branch)](https://img.shields.io/github/workflow/status/objectionary/eo-vscode/Build/master)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=EOLangVSCode_eo-vscode&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=EOLangVSCode_eo-vscode)
-![GitHub](https://img.shields.io/github/license/EOLangVSCode/eo-vscode)
+![GitHub](https://img.shields.io/github/license/objectionary/eo-vscode)
 
 This is the VSCode plugin for [EO](https://github.com/objectionary/eo). It provides semantic highlighting, parsing error checking and EO file icon for your .eo files.
 
