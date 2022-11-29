@@ -80,8 +80,9 @@
 		"watch": "tsc -b -w",
 		"lint": "eslint ./client/src ./server/src --ext .ts,.tsx",
 		"postinstall": "cd client && npm install && cd ../server && npm install && cd ..",
-		"test": "sh ./scripts/e2e.sh",
-		"convert-yaml": "npx js-yaml syntaxes/eo.tmLanguage.yaml > syntaxes/eo.tmLanguage.json"
+		"fetch-and-build-grammar": "cd server && npm run get-grammar && npm run build-parser && cd ..",
+		"convert-yaml": "npx js-yaml syntaxes/eo.tmLanguage.yaml > syntaxes/eo.tmLanguage.json",
+		"test": "sh ./scripts/e2e.sh"
 	},
 	"devDependencies": {
 		"@types/mocha": "^9.1.0",
