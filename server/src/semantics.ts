@@ -1,7 +1,7 @@
 /**
  * Performs the semantic highlighting if the documents.
  * 
- * @class SemanticTokensProvider
+ * @module SemanticTokensProvider
  */
 
 import {

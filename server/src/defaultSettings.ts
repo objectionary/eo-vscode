@@ -1,7 +1,7 @@
 /**
  * Default setting properties for the Language Server 
  * 
- * @interface DefaultSettings
+ * @module DefaultSettings
  */
 export interface DefaultSettings {
 	maxNumberOfProblems: number;

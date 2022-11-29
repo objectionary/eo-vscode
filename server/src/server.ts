@@ -1,7 +1,7 @@
 /**
  * The Server Module for the extension.
  * 
- * @module serverModule
+ * @module ServerModule
  */
 
 import {

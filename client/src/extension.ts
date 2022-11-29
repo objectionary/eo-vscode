@@ -1,7 +1,7 @@
 /**
  * The Client Module for the extension.
  * 
- * @module clientModule
+ * @module ClientModule
  */
 
 import * as path from 'path';
