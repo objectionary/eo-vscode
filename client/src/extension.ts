@@ -1,7 +1,8 @@
-/* --------------------------------------------------------------------------------------------
- * Copyright (c) Microsoft Corporation. All rights reserved.
- * Licensed under the MIT License. See License.txt in the project root for license information.
- * ------------------------------------------------------------------------------------------ */
+/**
+ * The Client Module for the extension.
+ * 
+ * @module clientModule
+ */
 
 import * as path from 'path';
 import { workspace, ExtensionContext } from 'vscode';
@@ -15,8 +16,17 @@ import {
 
 let client: LanguageClient;
 
+/**
+ * Starts the client and, as consequence, launches the server.
+ * 
+ * The server is implemented in node. Server options are set to
+ * define the transportation protocol and debug option. Client
+ * options are set to define the type of document for which the
+ * extension will run.
+ * 
+ * @param context 	ExtensionContext object used by vscode
+ */
 export function activate(context: ExtensionContext) {
-	// The server is implemented in node
 	const serverModule = context.asAbsolutePath(
 		path.join('server', 'out', 'server.js')
 	);
@@ -45,7 +55,7 @@ export function activate(context: ExtensionContext) {
 		}
 	};
 
-	// Create the language client and start the client.
+	// Create the language client.
 	client = new LanguageClient(
 		'eoLanguageServer',
 		'EO Language Server',
@@ -57,6 +67,12 @@ export function activate(context: ExtensionContext) {
 	client.start();
 }
 
+/**
+ * Stops the client execution.
+ * 
+ * @returns	A promise for when the client stops running if it is already
+ * 			running. Otherwise, returns _undefined_ 
+ */
 export function deactivate(): Thenable<void> | undefined {
 	if (!client) {
 		return undefined;
