@@ -54,6 +54,10 @@ jobs:
       - name: Download and Build Grammar
         run: |
           npm run fetch-and-build-grammar
+
+      - name: Generate Documentation
+        run: |
+          npm run generate-docs
           
       - name: Pre-publish routine
         run: |
