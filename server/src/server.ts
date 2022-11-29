@@ -43,6 +43,10 @@ const documents: TextDocuments<TextDocument> = new TextDocuments(TextDocument);
  * Client capabilities manager, to define what is and is not able to do.
  */
 const clientCapabilities = new Capabilities();
+
+/**
+ * Provider of the semantic highlighting capability of the language server.
+ */
 let semanticTokensProvider: SemanticTokensProvider;
 
 /**
