@@ -1,32 +1,31 @@
 /**
  * The Server Module for the extension.
- * 
  * @module ServerModule
  */
 
 import {
-	createConnection,
-	TextDocuments,
-	Diagnostic,
-	DiagnosticSeverity,
-	ProposedFeatures,
-	InitializeParams,
-	DidChangeConfigurationNotification,
-	TextDocumentSyncKind,
-	InitializeResult,
-	SemanticTokensRegistrationOptions,
-	SemanticTokensRegistrationType
-} from 'vscode-languageserver/node.js';
+    createConnection,
+    TextDocuments,
+    Diagnostic,
+    DiagnosticSeverity,
+    ProposedFeatures,
+    InitializeParams,
+    DidChangeConfigurationNotification,
+    TextDocumentSyncKind,
+    InitializeResult,
+    SemanticTokensRegistrationOptions,
+    SemanticTokensRegistrationType
+} from "vscode-languageserver/node.js";
 
 import {
-	TextDocument,
-} from 'vscode-languageserver-textdocument';
+    TextDocument
+} from "vscode-languageserver-textdocument";
 
-import { Capabilities } from './capabilities';
-import { SemanticTokensProvider } from './semantics';
-import { getParserErrors } from './parser';
+import { Capabilities } from "./capabilities";
+import { SemanticTokensProvider } from "./semantics";
+import { getParserErrors } from "./parser";
 
-import { DefaultSettings } from './defaultSettings';
+import { DefaultSettings } from "./defaultSettings";
 
 /**
  * Connection with the server, using Node's IPC as a transport.
@@ -54,53 +53,57 @@ let semanticTokensProvider: SemanticTokensProvider;
  * of the connection with the client
  */
 connection.onInitialize((params: InitializeParams) => {
-	const capabilities = params.capabilities;
-	clientCapabilities.initialize(capabilities);
-	semanticTokensProvider = new SemanticTokensProvider(params.capabilities.textDocument!.semanticTokens!);
+    const capabilities = params.capabilities;
 
-	const result: InitializeResult = {
-		capabilities: {
-			textDocumentSync: TextDocumentSyncKind.Incremental
-		}
-	};
-	if (clientCapabilities.hasWorkspaceFolderCapability) {
-		result.capabilities.workspace = {
-			workspaceFolders: {
-				supported: true
-			}
-		};
-	}
-	return result;
+    clientCapabilities.initialize(capabilities);
+    semanticTokensProvider = new SemanticTokensProvider(params.capabilities.textDocument!.semanticTokens!);
+
+    const result: InitializeResult = {
+        capabilities: {
+            textDocumentSync: TextDocumentSyncKind.Incremental
+        }
+    };
+
+    if (clientCapabilities.hasWorkspaceFolderCapability) {
+        result.capabilities.workspace = {
+            workspaceFolders: {
+                supported: true
+            }
+        };
+    }
+    return result;
 });
 
 /**
  * Defines procedures to be executed once initialization process
  * of the connection with the client has concluded.
- * 
+ *
  * Registers the following possible capabilities of the client:
  * Configuration, Workspace Folder and Document Semantic Tokens
  */
 connection.onInitialized(() => {
-	if (clientCapabilities.hasConfigurationCapability) {
-		// Register for all configuration changes.
-		connection.client.register(DidChangeConfigurationNotification.type, undefined);
-	}
-	if (clientCapabilities.hasWorkspaceFolderCapability) {
-		connection.workspace.onDidChangeWorkspaceFolders(_event => {
-			connection.console.log('Workspace folder change event received.');
-		});
-	}
-	if (clientCapabilities.hasDocumentSemanticTokensCapability) {
-		const registrationOptions: SemanticTokensRegistrationOptions = {
-			documentSelector: null,
-			legend: semanticTokensProvider.legend,
-			range: false,
-			full: {
-				delta: true
-			}
-		};
-		connection.client.register(SemanticTokensRegistrationType.type, registrationOptions);
-	}
+    if (clientCapabilities.hasConfigurationCapability) {
+
+        // Register for all configuration changes.
+        connection.client.register(DidChangeConfigurationNotification.type, void 0);
+    }
+    if (clientCapabilities.hasWorkspaceFolderCapability) {
+        connection.workspace.onDidChangeWorkspaceFolders(_event => {
+            connection.console.log("Workspace folder change event received.");
+        });
+    }
+    if (clientCapabilities.hasDocumentSemanticTokensCapability) {
+        const registrationOptions: SemanticTokensRegistrationOptions = {
+            documentSelector: null,
+            legend: semanticTokensProvider.legend,
+            range: false,
+            full: {
+                delta: true
+            }
+        };
+
+        connection.client.register(SemanticTokensRegistrationType.type, registrationOptions);
+    }
 });
 
 
@@ -120,46 +123,78 @@ let globalSettings: DefaultSettings = defaultSettings;
 const documentSettings: Map<string, Thenable<DefaultSettings>> = new Map();
 
 /**
+ * Retrieves the settings for a document
+ * @param resource - String for the scheme of the document for which to retrive its settings
+ * @returns - A Promise for the settings of the document requested
+ */
+function getDocumentSettings(resource: string): Thenable<DefaultSettings> {
+    if (!clientCapabilities.hasConfigurationCapability) {
+        return Promise.resolve(globalSettings);
+    }
+    let result = documentSettings.get(resource);
+
+    if (!result) {
+        result = connection.workspace.getConfiguration({
+            scopeUri: resource,
+            section: "languageServerExample"
+        });
+        documentSettings.set(resource, result);
+    }
+    return result;
+}
+
+/**
+ * Performs error checking for the given document through its parsing. Sends to VSCode
+ * each problem returned by the parser up until the maximum number of problems defined
+ * in the given document's settings.
+ * @param textDocument - Document for which to perform the validation procedure
+ * @returns {Promise<void>}
+ */
+async function validateTextDocument(textDocument: TextDocument): Promise<void> {
+    const settings = await getDocumentSettings(textDocument.uri);
+    const text = textDocument.getText();
+    const diagnostics: Diagnostic[] = [];
+    const errors = getParserErrors(text);
+
+    errors.forEach((error, index) => {
+        if (index >= settings.maxNumberOfProblems) {
+            return;
+        }
+        const diagnostic: Diagnostic = {
+            severity: DiagnosticSeverity.Warning,
+            range: {
+                start: { line: error.line - 1, character: error.column },
+                end: { line: error.line - 1, character: error.column }
+            },
+            message: error.msg,
+            source: "ex"
+        };
+
+        diagnostics.push(diagnostic);
+    });
+    connection.sendDiagnostics({ uri: textDocument.uri, diagnostics });
+}
+
+/**
  * Resets all cached document settings and revalidates all open text
  * documents with there is a change in the configuration of the client.
  */
 connection.onDidChangeConfiguration(change => {
-	if (clientCapabilities.hasConfigurationCapability) {
-		documentSettings.clear();
-	} else {
-		globalSettings = <DefaultSettings>(
-			(change.settings.languageServerExample || defaultSettings)
-		);
-	}
-	documents.all().forEach(validateTextDocument);
+    if (clientCapabilities.hasConfigurationCapability) {
+        documentSettings.clear();
+    } else {
+        globalSettings = <DefaultSettings>(
+            (change.settings.languageServerExample || defaultSettings)
+        );
+    }
+    documents.all().forEach(validateTextDocument);
 });
-
-/**
- * Retrieves the settings for a document 
- * 
- * @param resource  String for the scheme of the document for which to retrive its settings
- * @returns 		A Promise for the settings of the document requested
- */
-function getDocumentSettings(resource: string): Thenable<DefaultSettings> {
-	if (!clientCapabilities.hasConfigurationCapability) {
-		return Promise.resolve(globalSettings);
-	}
-	let result = documentSettings.get(resource);
-	if (!result) {
-		result = connection.workspace.getConfiguration({
-			scopeUri: resource,
-			section: 'languageServerExample'
-		});
-		documentSettings.set(resource, result);
-	}
-	return result;
-}
 
 /**
  * Clears the settings cache for a closed document, once it is closed
  */
 documents.onDidClose(e => {
-	documentSettings.delete(e.document.uri);
+    documentSettings.delete(e.document.uri);
 });
 
 /**
@@ -167,45 +202,14 @@ documents.onDidClose(e => {
  * modified.
  */
 documents.onDidChangeContent(change => {
-	validateTextDocument(change.document);
+    validateTextDocument(change.document);
 });
-
-/**
- * Performs error checking for the given document through its parsing. Sends to VSCode
- * each problem returned by the parser up until the maximum number of problems defined
- * in the given document's settings.
- * 
- * @param textDocument Document for which to perform the validation procedure
- */
-async function validateTextDocument(textDocument: TextDocument): Promise<void> {
-	const settings = await getDocumentSettings(textDocument.uri);
-	const text = textDocument.getText();
-	const diagnostics: Diagnostic[] = [];
-	const errors = getParserErrors(text);
-	
-	errors.forEach((error, index) => {
-		if(index >= settings.maxNumberOfProblems) {
-			return;
-		}
-		const diagnostic: Diagnostic = {
-			severity: DiagnosticSeverity.Warning,
-			range: {
-				start: {line: error.line - 1, character: error.column},
-				end: {line: error.line - 1, character: error.column}
-			},
-			message: error.msg,
-			source: 'ex'
-		};
-		diagnostics.push(diagnostic);
-	});
-	connection.sendDiagnostics({ uri: textDocument.uri, diagnostics });
-}
 
 /**
  * Logs if a change in a watched document is detected
  */
 connection.onDidChangeWatchedFiles(_change => {
-	connection.console.log('We received an file change event');
+    connection.console.log("We received an file change event");
 });
 
 /**
@@ -213,11 +217,12 @@ connection.onDidChangeWatchedFiles(_change => {
  * callback parameter once the document is first opened.
  */
 connection.languages.semanticTokens.on(params => {
-	const document = documents.get(params.textDocument.uri);
-	if (!document) {
-		return { data: [] };
-	}
-	return semanticTokensProvider.provideSemanticTokens(document);
+    const document = documents.get(params.textDocument.uri);
+
+    if (!document) {
+        return { data: [] };
+    }
+    return semanticTokensProvider.provideSemanticTokens(document);
 });
 
 /**
@@ -225,13 +230,13 @@ connection.languages.semanticTokens.on(params => {
  * callback parameter once the document is changed.
  */
 connection.languages.semanticTokens.onDelta(params => {
-	const document = documents.get(params.textDocument.uri);
-	if (!document) {
-		return { data: [] };
-	}
-	return semanticTokensProvider.provideDeltas(document, params.textDocument.uri);
-});
+    const document = documents.get(params.textDocument.uri);
 
+    if (!document) {
+        return { data: [] };
+    }
+    return semanticTokensProvider.provideDeltas(document, params.textDocument.uri);
+});
 
 /**
  * Make the text document manager listen on the connection
