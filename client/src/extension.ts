@@ -1,3 +1,9 @@
+/**
+ * The Client Module for the extension.
+ * 
+ * @module clientModule
+ */
+
 import * as path from 'path';
 import { workspace, ExtensionContext } from 'vscode';
 
@@ -12,7 +18,7 @@ let client: LanguageClient;
 
 /**
  * Starts the client and, as consequence, launches the server.
- * <p>
+ * 
  * The server is implemented in node. Server options are set to
  * define the transportation protocol and debug option. Client
  * options are set to define the type of document for which the
