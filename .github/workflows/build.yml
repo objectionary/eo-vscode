@@ -53,10 +53,11 @@ jobs:
 
       - name: Download and Build Grammar
         run: |
-          cd server
-          npm run get-grammar
-          npm run build-parser
-          cd ..
+          npm run fetch-and-build-grammar
+
+      - name: Generate Documentation
+        run: |
+          npm run generate-docs
           
       - name: Pre-publish routine
         run: |
@@ -81,6 +82,7 @@ jobs:
             "description": "Staging checks passed",
             "target_url": "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
           }'
+          
       - name: Staging Checks 🚨
         if: ${{ failure() }}
         # set the merge commit status check

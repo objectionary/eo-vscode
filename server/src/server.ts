@@ -1,3 +1,9 @@
+/**
+ * The Server Module for the extension.
+ * 
+ * @module ServerModule
+ */
+
 import {
 	createConnection,
 	TextDocuments,
@@ -20,17 +26,33 @@ import { Capabilities } from './capabilities';
 import { SemanticTokensProvider } from './semantics';
 import { getParserErrors } from './parser';
 
-// Create a connection for the server, using Node's IPC as a transport.
-// Also include all preview / proposed LSP features.
+import { DefaultSettings } from './defaultSettings';
+
+/**
+ * Connection with the server, using Node's IPC as a transport.
+ * Also includes all preview / proposed LSP features.
+ */
 const connection = createConnection(ProposedFeatures.all);
 
-// Create a simple text document manager.
+/**
+ * Simple text document manager.
+ */
 const documents: TextDocuments<TextDocument> = new TextDocuments(TextDocument);
 
+/**
+ * Client capabilities manager, to define what is and is not able to do.
+ */
 const clientCapabilities = new Capabilities();
+
+/**
+ * Provider of the semantic highlighting capability of the language server.
+ */
 let semanticTokensProvider: SemanticTokensProvider;
 
-
+/**
+ * Defines procedures to be executed on the initialization process
+ * of the connection with the client
+ */
 connection.onInitialize((params: InitializeParams) => {
 	const capabilities = params.capabilities;
 	clientCapabilities.initialize(capabilities);
@@ -51,6 +73,13 @@ connection.onInitialize((params: InitializeParams) => {
 	return result;
 });
 
+/**
+ * Defines procedures to be executed once initialization process
+ * of the connection with the client has concluded.
+ * 
+ * Registers the following possible capabilities of the client:
+ * Configuration, Workspace Folder and Document Semantic Tokens
+ */
 connection.onInitialized(() => {
 	if (clientCapabilities.hasConfigurationCapability) {
 		// Register for all configuration changes.
@@ -74,33 +103,43 @@ connection.onInitialized(() => {
 	}
 });
 
-interface DefaultSettings {
-	maxNumberOfProblems: number;
-}
 
-// The global settings, used when the `workspace/configuration` request is not supported by the client.
-// Please note that this is not the case when using this server with the client provided in this example
-// but could happen with other clients.
+/**
+ * Settings of the Language Server
+ */
 const defaultSettings: DefaultSettings = { maxNumberOfProblems: 1000 };
+
+/**
+ * The global settings, used when the `workspace/configuration` request is not supported by the client.
+ */
 let globalSettings: DefaultSettings = defaultSettings;
 
-// Cache the settings of all open documents
+/**
+ * Cache for the settings of all open documents
+ */
 const documentSettings: Map<string, Thenable<DefaultSettings>> = new Map();
 
+/**
+ * Resets all cached document settings and revalidates all open text
+ * documents with there is a change in the configuration of the client.
+ */
 connection.onDidChangeConfiguration(change => {
 	if (clientCapabilities.hasConfigurationCapability) {
-		// Reset all cached document settings
 		documentSettings.clear();
 	} else {
 		globalSettings = <DefaultSettings>(
 			(change.settings.languageServerExample || defaultSettings)
 		);
 	}
-
-	// Revalidate all open text documents
 	documents.all().forEach(validateTextDocument);
 });
 
+/**
+ * Retrieves the settings for a document 
+ * 
+ * @param resource  String for the scheme of the document for which to retrive its settings
+ * @returns 		A Promise for the settings of the document requested
+ */
 function getDocumentSettings(resource: string): Thenable<DefaultSettings> {
 	if (!clientCapabilities.hasConfigurationCapability) {
 		return Promise.resolve(globalSettings);
@@ -116,33 +155,38 @@ function getDocumentSettings(resource: string): Thenable<DefaultSettings> {
 	return result;
 }
 
-// Only keep settings for open documents
+/**
+ * Clears the settings cache for a closed document, once it is closed
+ */
 documents.onDidClose(e => {
 	documentSettings.delete(e.document.uri);
 });
 
-// The content of a text document has changed. This event is emitted
-// when the text document first opened or when its content has changed.
+/**
+ * Performs the validation of a document once it is opened or its content is
+ * modified.
+ */
 documents.onDidChangeContent(change => {
 	validateTextDocument(change.document);
 });
 
+/**
+ * Performs error checking for the given document through its parsing. Sends to VSCode
+ * each problem returned by the parser up until the maximum number of problems defined
+ * in the given document's settings.
+ * 
+ * @param textDocument Document for which to perform the validation procedure
+ */
 async function validateTextDocument(textDocument: TextDocument): Promise<void> {
-	// In this simple example we get the settings for every validate run.
 	const settings = await getDocumentSettings(textDocument.uri);
-
-	// The validator creates diagnostics for all uppercase words length 2 and more
 	const text = textDocument.getText();
-
 	const diagnostics: Diagnostic[] = [];
-
 	const errors = getParserErrors(text);
 	
 	errors.forEach((error, index) => {
 		if(index >= settings.maxNumberOfProblems) {
 			return;
 		}
-		
 		const diagnostic: Diagnostic = {
 			severity: DiagnosticSeverity.Warning,
 			range: {
@@ -154,16 +198,20 @@ async function validateTextDocument(textDocument: TextDocument): Promise<void> {
 		};
 		diagnostics.push(diagnostic);
 	});
-
-	// Send the computed diagnostics to VSCode.
 	connection.sendDiagnostics({ uri: textDocument.uri, diagnostics });
 }
 
+/**
+ * Logs if a change in a watched document is detected
+ */
 connection.onDidChangeWatchedFiles(_change => {
-	// Monitored files have change in VSCode
 	connection.console.log('We received an file change event');
 });
 
+/**
+ * Performs semmantic highlighting for the document defined in the
+ * callback parameter once the document is first opened.
+ */
 connection.languages.semanticTokens.on(params => {
 	const document = documents.get(params.textDocument.uri);
 	if (!document) {
@@ -172,6 +220,10 @@ connection.languages.semanticTokens.on(params => {
 	return semanticTokensProvider.provideSemanticTokens(document);
 });
 
+/**
+ * Performs semmantic highlighting for the document defined in the
+ * callback parameter once the document is changed.
+ */
 connection.languages.semanticTokens.onDelta(params => {
 	const document = documents.get(params.textDocument.uri);
 	if (!document) {
@@ -180,9 +232,14 @@ connection.languages.semanticTokens.onDelta(params => {
 	return semanticTokensProvider.provideDeltas(document, params.textDocument.uri);
 });
 
-// Make the text document manager listen on the connection
-// for open, change and close text document events
+
+/**
+ * Make the text document manager listen on the connection
+ * for open, change and close text document events
+ */
 documents.listen(connection);
 
-// Listen on the connection
+/**
+ * Listen on the connection
+ */
 connection.listen();

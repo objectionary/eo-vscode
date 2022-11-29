@@ -8,7 +8,7 @@
 	"license": "SEE LICENSE IN LICENSE.txt",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/EOLangVSCode/eo-vscode"
+		"url": "https://github.com/objectionary/eo-vscode"
 	},
 	"categories": [
 		"Programming Languages"
@@ -80,8 +80,10 @@
 		"watch": "tsc -b -w",
 		"lint": "eslint ./client/src ./server/src --ext .ts,.tsx",
 		"postinstall": "cd client && npm install && cd ../server && npm install && cd ..",
+		"fetch-and-build-grammar": "cd server && npm run get-grammar && npm run build-parser && cd ..",
+		"convert-yaml": "npx js-yaml syntaxes/eo.tmLanguage.yaml > syntaxes/eo.tmLanguage.json",
 		"test": "sh ./scripts/e2e.sh",
-		"convert-yaml": "npx js-yaml syntaxes/eo.tmLanguage.yaml > syntaxes/eo.tmLanguage.json"
+		"generate-docs": "npx typedoc"
 	},
 	"devDependencies": {
 		"@types/mocha": "^9.1.0",
@@ -92,6 +94,7 @@
 		"eslint": "^8.13.0",
 		"js-yaml": "^4.1.0",
 		"mocha": "^9.2.1",
+		"typedoc": "^0.23.21",
 		"typescript": "^4.8.4",
 		"vsce": "^2.13.0"
 	}
