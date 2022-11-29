@@ -17,3 +17,23 @@ ext install eolang.eo
 ```
 
 You can also install it from [its page](https://marketplace.visualstudio.com/items?itemName=eolang.eo) at Visual Studio Marketplace.
+
+## How to Contribute
+Read the code documentation which can be found [here](https://www.objectionary.com/eo-vscode/)
+
+Clone the repository. Install node modules with:
+```bash
+$ npm install
+```
+
+Download grammar file and generate ANTLR4 parser with:
+```bash
+$ npm run fetch-and-build-grammar
+```
+
+Make changes on a new branch and create a pull request. To avoid frustration, run:
+```bash
+$ npm run linter
+$ npm run compile
+```
+before commiting.
