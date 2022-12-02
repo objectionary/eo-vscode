@@ -2,10 +2,15 @@ import * as vscode from "vscode";
 import * as assert from "assert";
 import { getDocUri, activate } from "./helper";
 
-suite("Should get parsing error check", () => {
-    const docUri = getDocUri("parsingError.eo");
-
+suite("Parsing error checks", () => {
+    
+    test("No parsing errors detected", async () => {
+        const docUri = getDocUri("parsingErrorFree.eo");
+        await testDiagnostics(docUri, []);
+    });
+    
     test("Diagnoses two missing EOL errors in file", async () => {
+        const docUri = getDocUri("parsingErrorTwo.eo");
         await testDiagnostics(docUri, [
             {
                 message: "missing EOL at 'n'",
