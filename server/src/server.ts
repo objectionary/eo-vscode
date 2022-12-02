@@ -56,6 +56,8 @@ connection.onInitialize((params: InitializeParams) => {
     const capabilities = params.capabilities;
 
     clientCapabilities.initialize(capabilities);
+    console.log("CAPACIDADE:");
+    console.log(params.capabilities.textDocument!.semanticTokens!);
     semanticTokensProvider = new SemanticTokensProvider(params.capabilities.textDocument!.semanticTokens!);
 
     const result: InitializeResult = {
@@ -151,6 +153,7 @@ function getDocumentSettings(resource: string): Thenable<DefaultSettings> {
  * @returns {Promise<void>}
  */
 async function validateTextDocument(textDocument: TextDocument): Promise<void> {
+    console.log("VOU VALIDAR");
     const settings = await getDocumentSettings(textDocument.uri);
     const text = textDocument.getText();
     const diagnostics: Diagnostic[] = [];
