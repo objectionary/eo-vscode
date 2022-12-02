@@ -1,5 +1,5 @@
 /**
- * Performs the parsing of the text document.
+ * Performs the parsing of the text document and reports on errors found.
  * @module Parser
  */
 

@@ -18,7 +18,7 @@ export let platformEol: string;
 export async function activate(docUri: vscode.Uri) {
 
     // The extensionId is `publisher.name` from package.json
-    const ext = vscode.extensions.getExtension("vscode-samples.lsp-sample")!;
+    const ext = vscode.extensions.getExtension("eolang.eo")!;
 
     await ext.activate();
     try {

@@ -1,26 +1,30 @@
-/* --------------------------------------------------------------------------------------------
- * Copyright (c) Microsoft Corporation. All rights reserved.
- * Licensed under the MIT License. See License.txt in the project root for license information.
- * ------------------------------------------------------------------------------------------ */
-
 import * as vscode from "vscode";
 import * as assert from "assert";
 import { getDocUri, activate } from "./helper";
 
-suite("Should get diagnostics", () => {
-    const docUri = getDocUri("diagnostics.txt");
+suite("Should get parsing error check", () => {
+    const docUri = getDocUri("parsingError.eo");
 
-    test("Diagnoses uppercase texts", async () => {
+    test("Diagnoses two missing EOL errors in file", async () => {
         await testDiagnostics(docUri, [
-            { message: "ANY is all uppercase.", range: toRange(0, 0, 0, 3), severity: vscode.DiagnosticSeverity.Warning, source: "ex" },
-            { message: "ANY is all uppercase.", range: toRange(0, 14, 0, 17), severity: vscode.DiagnosticSeverity.Warning, source: "ex" },
-            { message: "OS is all uppercase.", range: toRange(0, 18, 0, 20), severity: vscode.DiagnosticSeverity.Warning, source: "ex" }
+            {
+                message: "missing EOL at 'n'",
+                range: toRange(14, 30, 14, 30), 
+                severity: vscode.DiagnosticSeverity.Warning, 
+                source: "ex" 
+            },
+            {
+                message: "mismatched input ' ' expecting EOL",
+                range: toRange(15, 0, 15, 0), 
+                severity: vscode.DiagnosticSeverity.Warning,
+                source: "ex"
+            },
         ]);
     });
 });
 
 /**
- *
+ * Builds a VSCode.Range from the input line and column numbers
  * @param sLine
  * @param sChar
  * @param eLine
@@ -34,7 +38,7 @@ function toRange(sLine: number, sChar: number, eLine: number, eChar: number) {
 }
 
 /**
- *
+ * For each diagnostic received, compares it with the expected ones
  * @param docUri
  * @param expectedDiagnostics
  */

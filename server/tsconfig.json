@@ -8,6 +8,10 @@
         "strict": true,
         "outDir": "out",
         "rootDir": "src",
+        "typeRoots": [
+            "overrides",
+            "./node_modules/@types"
+        ]
     },
     "include": ["src"],
     "exclude": ["node_modules", ".vscode-test"]
