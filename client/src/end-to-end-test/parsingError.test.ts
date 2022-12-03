@@ -2,6 +2,44 @@ import * as vscode from "vscode";
 import * as assert from "assert";
 import { getDocUri, activate } from "./helper";
 
+/**
+ * Builds a VSCode.Range from the input line and column numbers
+ * @param sLine - Start line
+ * @param sChar - Start column
+ * @param eLine - End line
+ * @param eChar - End column
+ * @returns - vscode.Range
+ */
+function toRange(sLine: number, sChar: number, eLine: number, eChar: number) {
+    const start = new vscode.Position(sLine, sChar);
+    const end = new vscode.Position(eLine, eChar);
+
+    return new vscode.Range(start, end);
+}
+
+/**
+ * For each diagnostic received, compares it with the expected ones
+ * @param docUri - Document's Uri
+ * @param expectedDiagnostics - Array of the expected vscode.Diagnostics
+ * @returns {void}
+ */
+async function testDiagnostics(docUri: vscode.Uri, expectedDiagnostics: vscode.Diagnostic[]) {
+    await activate(docUri);
+
+    const actualDiagnostics = vscode.languages.getDiagnostics(docUri);
+
+    assert.strictEqual(actualDiagnostics.length, expectedDiagnostics.length);
+
+    expectedDiagnostics.forEach((expectedDiagnostic, i) => {
+        const actualDiagnostic = actualDiagnostics[i];
+
+        assert.strictEqual(actualDiagnostic.message, expectedDiagnostic.message);
+        assert.deepStrictEqual(actualDiagnostic.range, expectedDiagnostic.range);
+        assert.strictEqual(actualDiagnostic.severity, expectedDiagnostic.severity);
+    });
+}
+
+
 suite("Parsing error checks", () => {
 
     test("No parsing errors detected", async () => {
@@ -29,38 +67,3 @@ suite("Parsing error checks", () => {
         ]);
     });
 });
-
-/**
- * Builds a VSCode.Range from the input line and column numbers
- * @param sLine
- * @param sChar
- * @param eLine
- * @param eChar
- */
-function toRange(sLine: number, sChar: number, eLine: number, eChar: number) {
-    const start = new vscode.Position(sLine, sChar);
-    const end = new vscode.Position(eLine, eChar);
-
-    return new vscode.Range(start, end);
-}
-
-/**
- * For each diagnostic received, compares it with the expected ones
- * @param docUri
- * @param expectedDiagnostics
- */
-async function testDiagnostics(docUri: vscode.Uri, expectedDiagnostics: vscode.Diagnostic[]) {
-    await activate(docUri);
-
-    const actualDiagnostics = vscode.languages.getDiagnostics(docUri);
-
-    assert.equal(actualDiagnostics.length, expectedDiagnostics.length);
-
-    expectedDiagnostics.forEach((expectedDiagnostic, i) => {
-        const actualDiagnostic = actualDiagnostics[i];
-
-        assert.equal(actualDiagnostic.message, expectedDiagnostic.message);
-        assert.deepEqual(actualDiagnostic.range, expectedDiagnostic.range);
-        assert.equal(actualDiagnostic.severity, expectedDiagnostic.severity);
-    });
-}

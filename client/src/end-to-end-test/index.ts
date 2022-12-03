@@ -7,7 +7,8 @@ import * as Mocha from "mocha";
 import * as glob from "glob";
 
 /**
- *
+ * Runs the test suit
+ * @returns - Promise that resolves when the testing is done
  */
 export function run(): Promise<void> {
 
@@ -40,10 +41,10 @@ export function run(): Promise<void> {
                         resolve();
                     }
                 });
-            } catch (err) {
-                console.error(err);
-                reject(err);
+            } catch (error) {
+                reject(error);
             }
         });
+
     });
 }

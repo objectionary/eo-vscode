@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1670063579352" clover="3.2.0">
-  <project timestamp="1670063579352" name="All files">
+<coverage generated="1670106449693" clover="3.2.0">
+  <project timestamp="1670106449693" name="All files">
     <metrics statements="1179" coveredstatements="584" conditionals="359" coveredconditionals="91" methods="236" coveredmethods="52" elements="1774" coveredelements="727" complexity="0" loc="1179" ncloc="1179" packages="2" files="7" classes="7"/>
     <package name="src">
       <metrics statements="94" coveredstatements="79" conditionals="16" coveredconditionals="14" methods="20" coveredmethods="15"/>
@@ -20,22 +20,22 @@
         <line num="38" count="2" type="stmt"/>
         <line num="39" count="120" type="cond" truecount="2" falsecount="0"/>
         <line num="40" count="72" type="stmt"/>
-        <line num="41" count="72" type="cond" truecount="2" falsecount="0"/>
-        <line num="42" count="70" type="stmt"/>
+        <line num="42" count="72" type="cond" truecount="2" falsecount="0"/>
         <line num="43" count="70" type="stmt"/>
-        <line num="48" count="0" type="stmt"/>
-        <line num="60" count="23" type="stmt"/>
+        <line num="44" count="70" type="stmt"/>
+        <line num="49" count="0" type="stmt"/>
         <line num="61" count="23" type="stmt"/>
-        <line num="69" count="4" type="stmt"/>
+        <line num="62" count="23" type="stmt"/>
         <line num="70" count="4" type="stmt"/>
-        <line num="79" count="2" type="stmt"/>
-        <line num="81" count="2" type="stmt"/>
+        <line num="71" count="4" type="stmt"/>
+        <line num="80" count="2" type="stmt"/>
         <line num="82" count="2" type="stmt"/>
-        <line num="91" count="3" type="stmt"/>
+        <line num="83" count="2" type="stmt"/>
         <line num="92" count="3" type="stmt"/>
-        <line num="94" count="3" type="stmt"/>
+        <line num="93" count="3" type="stmt"/>
         <line num="95" count="3" type="stmt"/>
         <line num="96" count="3" type="stmt"/>
+        <line num="97" count="3" type="stmt"/>
       </file>
       <file name="parserError.ts" path="/home/eduardo/Documents/INNOPOLIS/EQSP/Project/FINAL/eo-vscode/server/src/parserError.ts">
         <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>

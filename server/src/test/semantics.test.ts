@@ -9,8 +9,9 @@ describe("Semantics module", () => {
     let clientCapabilities: SemanticTokensClientCapabilities;
 
     /**
-     *
-     * @param p
+     * Return the path to the document
+     * @param p - Document's name
+     * @returns - Path to document
      */
     function getDocPath(p: string) {
         return path.resolve(__dirname, "../../testFixture", p);

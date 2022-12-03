@@ -12,8 +12,18 @@ export let documentEol: string;
 export let platformEol: string;
 
 /**
+ * Timeout
+ * @param ms - Time to sleep for in ms
+ * @returns - Promise that is resolved after a timeout
+ */
+async function sleep(ms: number) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+/**
  * Activates the vscode.lsp-sample extension
- * @param docUri
+ * @param docUri - VSCode Uri for text document
+ * @returns {void}
  */
 export async function activate(docUri: vscode.Uri) {
 
@@ -26,24 +36,32 @@ export async function activate(docUri: vscode.Uri) {
         editor = await vscode.window.showTextDocument(doc);
         await sleep(2000); // Wait for server activation
     } catch (e) {
-        console.error(e);
+        throw new Error("Fail to activate document");
     }
 }
 
 /**
- *
- * @param ms
+ * Returns the path of a document
+ * @param p - Document's name
+ * @returns - Document's path
  */
-async function sleep(ms: number) {
-    return new Promise(resolve => setTimeout(resolve, ms));
+export function getDocPath(p: string) {
+    return path.resolve(__dirname, "../../testFixture", p);
 }
 
-export const getDocPath = (p: string) => path.resolve(__dirname, "../../testFixture", p);
-export const getDocUri = (p: string) => vscode.Uri.file(getDocPath(p));
+/**
+ * Returns document's Uri
+ * @param p - Document's name
+ * @returns - Document's Uri
+ */
+export function getDocUri(p: string) {
+    return vscode.Uri.file(getDocPath(p));
+}
 
 /**
- *
- * @param content
+ * Setter for the test content
+ * @param content - Content of the document on which to perform the testing
+ * @returns - A promise that resolves with a value indicating if the edits could be applied
  */
 export async function setTestContent(content: string): Promise<boolean> {
     const all = new vscode.Range(
