@@ -1,5 +1,5 @@
 /**
- * Performs the parsing of the text document.
+ * Performs the parsing of the text document and reports on errors found.
  * @module Parser
  */
 
@@ -39,8 +39,10 @@ function buildTokenSetAndMap() {
                 if (elem[0] !== "'") {
                     const pair = elem.split("=");
 
-                    tokenTypes!.add(pair[0]);
-                    tokenNumToString!.set(Number(pair[1]), pair[0]);
+                    if (pair.length === 2) {
+                        tokenTypes!.add(pair[0]);
+                        tokenNumToString!.set(Number(pair[1]), pair[0]);
+                    }
                 }
             });
         } catch (e) {

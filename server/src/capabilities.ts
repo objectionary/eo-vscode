@@ -14,7 +14,7 @@ export class Capabilities {
         this.hasConfigurationCapability = false;
         this.hasWorkspaceFolderCapability = false;
         this.hasDiagnosticRelatedInformationCapability = false;
-        this.hasDocumentSemanticTokensCapability = false;
+        this.hasDocumentSemanticTokensCapability = true;
     }
 
     initialize(capabilities: ClientCapabilities) {

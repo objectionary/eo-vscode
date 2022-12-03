@@ -136,7 +136,7 @@ export class SemanticTokensProvider {
      *
      * Firstly, the document is tokenized through the EO's parser. Secondly,
      * each token receives a VSCode token type depending on which grammar token
-     * it is.
+     * it is. If no VSCode token is a match, then its token code is set to -1.
      * @param document - Text Document to be semanticaly tokenized
      * @returns - Array of VSCode tokens present in the document
      */

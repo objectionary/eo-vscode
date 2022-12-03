@@ -51,6 +51,13 @@ jobs:
         run: |
           npm run lint
 
+      - name: Unit testing
+        run: |
+          npm run unit-test
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+
       - name: Download and Build Grammar
         run: |
           npm run fetch-and-build-grammar
