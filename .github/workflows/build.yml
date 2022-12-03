@@ -55,10 +55,6 @@ jobs:
         run: |
           npm run unit-test
 
-      - name: End-to-end testing
-        run: |
-          npm run end-to-end-test
-
       - name: Download and Build Grammar
         run: |
           npm run fetch-and-build-grammar
