@@ -3,27 +3,29 @@ import * as assert from "assert";
 import { getDocUri, activate } from "./helper";
 
 suite("Parsing error checks", () => {
-    
+
     test("No parsing errors detected", async () => {
         const docUri = getDocUri("parsingErrorFree.eo");
+
         await testDiagnostics(docUri, []);
     });
-    
+
     test("Diagnoses two missing EOL errors in file", async () => {
         const docUri = getDocUri("parsingErrorTwo.eo");
+
         await testDiagnostics(docUri, [
             {
                 message: "missing EOL at 'n'",
-                range: toRange(14, 30, 14, 30), 
-                severity: vscode.DiagnosticSeverity.Warning, 
-                source: "ex" 
-            },
-            {
-                message: "mismatched input ' ' expecting EOL",
-                range: toRange(15, 0, 15, 0), 
+                range: toRange(14, 30, 14, 30),
                 severity: vscode.DiagnosticSeverity.Warning,
                 source: "ex"
             },
+            {
+                message: "mismatched input ' ' expecting EOL",
+                range: toRange(15, 0, 15, 0),
+                severity: vscode.DiagnosticSeverity.Warning,
+                source: "ex"
+            }
         ]);
     });
 });

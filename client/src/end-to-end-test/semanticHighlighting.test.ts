@@ -1,15 +1,15 @@
 import * as vscode from "vscode";
 import * as assert from "assert";
-import * as fs from 'fs';
+import * as fs from "fs";
 import { getDocUri, getDocPath, activate } from "./helper";
 
 suite("Semantic Highlighting", () => {
-	const docUri = getDocUri("semanticHighlighting.eo");
-	
+    const docUri = getDocUri("semanticHighlighting.eo");
+
     test("Performs semantic highlighting in document", async () => {
-		const targetTokens = fs.readFileSync(getDocPath("semanticHighlightingTarget.txt"),"utf8");
-		const targetTokensArray = targetTokens.split("\n");
-		
+        const targetTokens = fs.readFileSync(getDocPath("semanticHighlightingTarget.txt"), "utf8");
+        const targetTokensArray = targetTokens.split("\n");
+
         await testSemanticHighlight(docUri, targetTokensArray);
     });
 });
@@ -19,6 +19,7 @@ suite("Semantic Highlighting", () => {
  * are exactly the same as expected
  * @param docUri
  * @param expectedCompletionList
+ * @param expectedSemanticTokens
  */
 async function testSemanticHighlight(
     docUri: vscode.Uri,
@@ -34,6 +35,7 @@ async function testSemanticHighlight(
     assert.ok(actualSemanticTokens.data.length >= 2);
     expectedSemanticTokens.forEach((expectedItem, i) => {
         const actualItem = actualSemanticTokens.data[i].toString();
+
         assert.equal(expectedItem, actualItem);
     });
 }
