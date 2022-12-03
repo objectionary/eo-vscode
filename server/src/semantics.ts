@@ -203,7 +203,6 @@ export class SemanticTokensProvider {
      *            token of the given document
      */
     provideSemanticTokens(document: TextDocument) {
-        console.log("VOU PROVIDENCIAR")
         const builder = this.getTokenBuilder(document);
 
         this.populateBuilder(builder, document);

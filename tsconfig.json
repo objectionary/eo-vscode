@@ -6,10 +6,7 @@
         "outDir": "out",
         "rootDir": "src",
         "sourceMap": true,
-        "typeRoots": [
-            "overrides",
-            "./node_modules/@types"
-        ]
+        "skipLibCheck": true
     },
     "include": [
         "src"

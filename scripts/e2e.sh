@@ -12,4 +12,4 @@ npm run build-parser
 cd ../
 npm run compile
 
-node "$(pwd)/client/out/test/runTest"
+node "$(pwd)/client/out/end-to-end-test/runTest"

@@ -38,9 +38,10 @@ function buildTokenSetAndMap() {
             text.split("\n").forEach(elem => {
                 if (elem[0] !== "'") {
                     const pair = elem.split("=");
-
-                    tokenTypes!.add(pair[0]);
-                    tokenNumToString!.set(Number(pair[1]), pair[0]);
+                    if (pair.length === 2) {
+                        tokenTypes!.add(pair[0]);
+                        tokenNumToString!.set(Number(pair[1]), pair[0]);
+                    }
                 }
             });
         } catch (e) {
