@@ -6,3 +6,4 @@ server/resources/*
 !server/resources/docs.txt
 server/src/parser/*
 !server/src/parser/docs.txt
+coverage
