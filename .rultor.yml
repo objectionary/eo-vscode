@@ -15,9 +15,8 @@ release:
       [[ "${tag}" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]] || exit -1
       npm version ${tag} --no-git-tag-version
       npm install
-      npm run unit-test
-      npm run end-to-end-test
       npm run fetch-and-build-grammar
       npm run convert-yaml && npm run vscode:prepublish
+      npm run unit-test
       cat ../pat.txt | vsce login eolang
       vsce publish
