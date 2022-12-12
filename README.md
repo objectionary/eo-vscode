@@ -47,7 +47,6 @@ $ npm run end-to-end-test
 
 If you have modified any of the code documentation, generate new documentation files with:
 ```bash
-$ npm run unit-test
 $ npm run generate-docs
 ```
 
