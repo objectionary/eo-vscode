@@ -1,9 +1,5 @@
 <img src="./icons/cactus-128.png" height="92px" />
 
-[![EO principles respected here](https://www.elegantobjects.org/badge.svg)](https://www.elegantobjects.org)
-[![DevOps By Rultor.com](https://www.rultor.com/b/objectionary/eo)](http://www.rultor.com/p/objectionary/eo)
-[<img src="https://sonarcloud.io/images/project_badges/sonarcloud-black.svg" width="120" alt="SonarCloud">](https://sonarcloud.io/summary/new_code?id=EOLangVSCode_eo-vscode)
-
 ![Lines of code](https://img.shields.io/tokei/lines/github/objectionary/eo-vscode)
 ![GitHub Workflow Status (branch)](https://img.shields.io/github/workflow/status/objectionary/eo-vscode/Build/master)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=EOLangVSCode_eo-vscode&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=EOLangVSCode_eo-vscode)
