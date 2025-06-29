@@ -1,3 +1,22 @@
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included
+# in all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+---
+# yamllint disable rule:line-length
 name: Build
 on:
   push:
@@ -12,15 +31,14 @@ on:
 
 jobs:
   build:
-    name: Build
 
     strategy:
       matrix:
         node-version: [16.x]
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
@@ -33,7 +51,7 @@ jobs:
             ${{ runner.os }}-node-
 
       - name: Node ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
 
@@ -50,10 +68,10 @@ jobs:
           npm run unit-test
 
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-      
+
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:
@@ -67,14 +85,14 @@ jobs:
       - name: Generate Documentation
         run: |
           npm run generate-docs
-          
+
       - name: Pre-publish routine
         run: |
           npm run convert-yaml
           npm run vscode:prepublish
 
           # Reference: https://github.com/bahmutov/eleventy-example/blob/main/.github/workflows/ci.yml#L27
-      
+
       - name: Staging Checks ✅
         if: ${{ success() }}
         # set the merge commit status check
@@ -91,7 +109,7 @@ jobs:
             "description": "Staging checks passed",
             "target_url": "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
           }'
-          
+
       - name: Staging Checks 🚨
         if: ${{ failure() }}
         # set the merge commit status check
