@@ -62,24 +62,7 @@ export class SemanticTokensProvider {
      * @returns {void}
      */
     setMap() {
-
-        /*
-            List of VS Code's token types:
-              [
-                'namespace',     'type',
-                  'class',         'enum',
-                  'interface',     'struct',
-                  'typeParameter', 'parameter',
-                  'variable',      'property',
-                  'enumMember',    'event',
-                  'function',      'method',
-                  'macro',         'keyword',
-                  'modifier',      'comment',
-                  'string',        'number',
-                  'regexp',        'operator'
-            ]
-        */
-        this.tokenTypeMap.set("COMMENT", "comment");
+        this.tokenTypeMap.set("COMMENTARY", "comment");
         this.tokenTypeMap.set("META", "macro");
         this.tokenTypeMap.set("ROOT", "keyword");
         this.tokenTypeMap.set("HOME", "keyword");
@@ -148,6 +131,9 @@ export class SemanticTokensProvider {
             const vscodeTokenType = this.tokenTypeMap.get(antlrTypeNumToString(tk.type));
             const legendNum = vscodeTokenType ? this.legend.tokenTypes.indexOf(vscodeTokenType) : -1;
 
+            if (legendNum === -1) {
+                return;
+            }
             tokens.push({
                 line: tk.line - 1,
                 start: tk.charPositionInLine,
@@ -205,6 +191,7 @@ export class SemanticTokensProvider {
     provideSemanticTokens(document: TextDocument) {
         const builder = this.getTokenBuilder(document);
 
+        builder.previousResult("nonexistent id"); // clear the builder
         this.populateBuilder(builder, document);
         return builder.build();
     }
@@ -212,15 +199,13 @@ export class SemanticTokensProvider {
     /**
      * Returns a SemanticTokensBuilder for a modified text document
      * @param document - TextDocument to be semanticaly highlighted
-     * @param resultsId - The ID of the previous semantic analysis performed
-     *                    on the document
      * @returns - SemanticTokensBuilder containing the semantic
      *            token of the given document
      */
-    provideDeltas(document: TextDocument, resultsId: string) {
+    provideDeltas(document: TextDocument) {
         const builder = this.getTokenBuilder(document);
 
-        builder.previousResult(resultsId);
+        builder.previousResult(builder.id);
         this.populateBuilder(builder, document);
         return builder.buildEdits();
     }

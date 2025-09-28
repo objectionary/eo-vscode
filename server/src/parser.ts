@@ -30,7 +30,7 @@ function buildTokenSetAndMap() {
     if (!tokenTypes || !tokenNumToString) {
         tokenTypes = new Set<string>();
         tokenNumToString = new Map<number, string>();
-        const tokensPath = path.join(__dirname, "../resources/ProgramLexer.tokens");
+        const tokensPath = path.join(__dirname, "../resources/EoLexer.tokens");
 
         try {
             const text = fs.readFileSync(tokensPath, { encoding: "utf-8" });
@@ -46,7 +46,7 @@ function buildTokenSetAndMap() {
                 }
             });
         } catch (e) {
-            throw new Error("ProgramLexer.tokens file missing");
+            throw new Error("EoLexer.tokens file missing");
         }
     }
 }
