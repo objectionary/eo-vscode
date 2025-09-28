@@ -8,8 +8,8 @@ import {
     CommonTokenStream,
     CodePointCharStream
 } from "antlr4ts";
-import { ProgramLexer } from "./parser/ProgramLexer";
-import { ProgramParser } from "./parser/ProgramParser";
+import { EoLexer } from "./parser/EoLexer";
+import { EoParser } from "./parser/EoParser";
 
 export class Processor {
 
@@ -21,7 +21,7 @@ export class Processor {
     /**
      * EO grammar lexer
      */
-    lexer: ProgramLexer;
+    lexer: EoLexer;
 
     /**
      * Stream of tokens provided by lexer
@@ -31,7 +31,7 @@ export class Processor {
     /**
      * EO grammar parser
      */
-    parser: ProgramParser;
+    parser: EoParser;
 
     /**
      * Generates the lexer and parser for the given text.
@@ -39,8 +39,8 @@ export class Processor {
      */
     constructor(input: string) {
         this.inputStream = CharStreams.fromString(input);
-        this.lexer = new ProgramLexer(this.inputStream);
+        this.lexer = new EoLexer(this.inputStream);
         this.tokenStream = new CommonTokenStream(this.lexer);
-        this.parser = new ProgramParser(this.tokenStream);
+        this.parser = new EoParser(this.tokenStream);
     }
 }
