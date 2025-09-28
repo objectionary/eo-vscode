@@ -1,7 +1,7 @@
 +alias org.eolang.io.stdout
 +alias org.eolang.txt.sprintf
 # is year leap?
-[args...] > main
+[args] > main
   [y] > leap
     or. > @
       and.
@@ -10,7 +10,7 @@
       eq. (mod. y 400) 0
   stdout > @
     sprintf
-    "%d is %sa leap year!"
-    (args.get 0).as-int > year!
-  if. (leap year:y) "" "not "\n"
-  
+      "%d is %sa leap year!"
+      (args.get 0).as-int > year!
+    if. (leap year:y) "" not "\n"
+

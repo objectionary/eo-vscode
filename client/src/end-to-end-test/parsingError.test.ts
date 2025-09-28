@@ -53,13 +53,13 @@ suite("Parsing error checks", () => {
 
         await testDiagnostics(docUri, [
             {
-                message: "missing EOL at 'n'",
-                range: toRange(14, 30, 14, 30),
+                message: "no viable alternative at input '+alias org.eolang.txt.sprintf\\n# is year leap?'",
+                range: toRange(2, 0, 2, 0),
                 severity: vscode.DiagnosticSeverity.Warning,
                 source: "ex"
             },
             {
-                message: "mismatched input ' ' expecting EOL",
+                message: "extraneous input '\\n' expecting <EOF>",
                 range: toRange(15, 0, 15, 0),
                 severity: vscode.DiagnosticSeverity.Warning,
                 source: "ex"

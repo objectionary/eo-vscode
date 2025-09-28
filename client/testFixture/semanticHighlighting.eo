@@ -1,17 +1,18 @@
-[args...] > app
-  memory 0 > x
-  seq > @
-    x.write 2
-    while.
-      x.lt 6
-      [i]
-        seq > @
-          QQ.io.stdout
-            QQ.txt.sprintf
-              "%d x %d = %d\n"
-              x
-              x
-              x.times x
-          x.write
-            x.plus 1
-    TRUE
+[args] > app
+  malloc.for > @
+    0
+    [x] >>
+      seq * > @
+        x.put 2
+        while
+          x.as-number.lt 6 > [i] >>
+          [i] >>
+            seq * > @
+              QQ.io.stdout
+                QQ.txt.sprintf *1
+                  "%d x %1$d = %d\n"
+                  x
+                  x.as-number.times x
+              x.put
+                x.as-number.plus 1
+        true
