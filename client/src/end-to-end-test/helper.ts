@@ -1,6 +1,7 @@
 /* --------------------------------------------------------------------------------------------
  * SPDX-FileCopyrightText: Copyright (c) Microsoft Corporation. All rights reserved.
  * SPDX-License-Identifier: MIT
+*/
 
 import * as vscode from "vscode";
 import * as path from "path";
