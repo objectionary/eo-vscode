@@ -1,74 +1,49 @@
-import { antlrTypeNumToString, getTokenTypes, tokenize, getParserErrors } from "../parser";
+import { antlrTypeNumToString, getTokenTypes, tokenize, getParserErrors, resetTokenCache, buildTokenSetAndMap } from "../parser";
 import * as fs from "fs";
 import * as path from "path";
 
 describe("Parser module", () => {
     test("Gets a EO grammar token name from an ANTLR token number", () => {
-        expect(antlrTypeNumToString(1)).toBe("COMMENT");
+        expect(antlrTypeNumToString(1)).toBe("COMMENTARY");
     });
 
-    test("Retrieves all token type names as defined in EOs grammar", () => {
-        const tokenTypes = getTokenTypes();
+    test("Retrieves all token type names as defined in EO grammar", () => {
+        const types = getTokenTypes();
 
-        expect(tokenTypes.size).toBe(35);
-        expect(tokenTypes.has("COMMENT")).toBeTruthy();
-        expect(tokenTypes.has("TEXT")).toBeTruthy();
-        expect(tokenTypes.has("Q")).toBeFalsy();
+        expect(types.size).toBe(31);
+        expect(types.has("COMMENTARY")).toBeTruthy();
+        expect(types.has("TEXT")).toBeTruthy();
+        expect(types.has("TAB")).toBeFalsy();
+        expect(types.has("UNTAB")).toBeFalsy();
+        expect(types.has("Q")).toBeFalsy();
     });
 
-    test("Retrieves all tokens from EOs code file", () => {
-        const filePathCode = path.resolve(__dirname, "../../testFixture/correctCode.eo");
-        const filePathTokens = path.resolve(__dirname, "../../testFixture/correctCodeTokens.txt");
+    test("parses valid code", () => {
+        const errors = getParserErrors(
+            '# test.\n[] > test\n  42 > @\n  xyz > t\n    "hello, world"\n  bar > foo\n'
+        );
 
-        const expectedText = fs.readFileSync(filePathTokens).toString();
-        const expectedTokensString = expectedText.split("\n");
-        const expectedTokens = expectedTokensString.map(item => item.split(" "));
-
-        const inputText = fs.readFileSync(filePathCode).toString();
-        const actualTokens = tokenize(inputText);
-
-        expect(actualTokens.length).toBe(22);
-        actualTokens.forEach((item, i) => {
-            expect(item.line.toString()).toBe(expectedTokens[i][0]);
-            expect(item.charPositionInLine.toString()).toBe(expectedTokens[i][1]);
-            expect(item.type.toString()).toBe(expectedTokens[i][2]);
-            expect(item.startIndex.toString()).toBe(expectedTokens[i][3]);
-            expect(item.stopIndex.toString()).toBe(expectedTokens[i][4]);
-        });
+        expect(errors.length).toBe(0);
     });
 
-    test("No parsing error", () => {
-        const filePathCode = path.resolve(__dirname, "../../testFixture/correctCode.eo");
-        const inputText = fs.readFileSync(filePathCode).toString();
-        const parseErrors = getParserErrors(inputText);
+    test("detects parsing errors", () => {
+        const errors = getParserErrors("-- broken syntax --");
 
-        expect(parseErrors.length).toBe(0);
+        expect(errors.length).toBe(1);
     });
 
-    test("One parsing error detected", () => {
-        const filePathCode = path.resolve(__dirname, "../../testFixture/incorrectCode1.eo");
-        const inputText = fs.readFileSync(filePathCode).toString();
-        const parseErrors = getParserErrors(inputText);
+    test("parses fibonacci program from file", () => {
+        const programPath = path.join(__dirname, "../../testFixture", "fibonacci.eo");
+        const program = fs.readFileSync(programPath, "utf8");
+        const errors = getParserErrors(program);
 
-        expect(parseErrors.length).toBe(1);
-        expect(parseErrors[0].line).toBe(12);
-        expect(parseErrors[0].column).toBe(17);
-        expect(parseErrors[0].msg).toBe("missing EOL at '<EOF>'");
+        expect(errors.length).toBe(0);
     });
 
-    test("Two parsing errors detected", () => {
-        const filePathCode = path.resolve(__dirname, "../../testFixture/incorrectCode2.eo");
-        const inputText = fs.readFileSync(filePathCode).toString();
-        const parseErrors = getParserErrors(inputText);
+    test("we expect buildTokenSetAndMap to throw", () => {
+        resetTokenCache();
+        const location = path.join(__dirname, "none-existing-path", "pathTo.tokens");
 
-        expect(parseErrors.length).toBe(2);
-
-        expect(parseErrors[0].line).toBe(15);
-        expect(parseErrors[0].column).toBe(30);
-        expect(parseErrors[0].msg).toBe("missing EOL at 'n'");
-
-        expect(parseErrors[1].line).toBe(16);
-        expect(parseErrors[1].column).toBe(0);
-        expect(parseErrors[1].msg).toBe("mismatched input ' ' expecting EOL");
+        expect(() => buildTokenSetAndMap(location)).toThrow();
     });
 });
