@@ -8,8 +8,8 @@ import {
     CommonTokenStream,
     CodePointCharStream
 } from "antlr4ts";
-import { EoLexer } from "./parser/EoLexer";
 import { EoParser } from "./parser/EoParser";
+import { IndentationLexer } from "./indentationLexer";
 
 export class Processor {
 
@@ -21,7 +21,7 @@ export class Processor {
     /**
      * EO grammar lexer
      */
-    lexer: EoLexer;
+    lexer: IndentationLexer;
 
     /**
      * Stream of tokens provided by lexer
@@ -39,7 +39,7 @@ export class Processor {
      */
     constructor(input: string) {
         this.inputStream = CharStreams.fromString(input);
-        this.lexer = new EoLexer(this.inputStream);
+        this.lexer = new IndentationLexer(this.inputStream);
         this.tokenStream = new CommonTokenStream(this.lexer);
         this.parser = new EoParser(this.tokenStream);
     }
