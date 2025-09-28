@@ -124,7 +124,7 @@ const documentSettings: Map<string, Thenable<DefaultSettings>> = new Map();
 
 /**
  * Retrieves the settings for a document
- * @param resource - String for the scheme of the document for which to retrive its settings
+ * @param resource - String for the scheme of the document for which to retrieve its settings
  * @returns - A Promise for the settings of the document requested
  */
 function getDocumentSettings(resource: string): Thenable<DefaultSettings> {

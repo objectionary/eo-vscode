@@ -72,4 +72,4 @@ npm run linter
 npm run compile
 ```
 
-before commiting.
+before committing.
