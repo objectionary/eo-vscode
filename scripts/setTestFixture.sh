@@ -5,8 +5,8 @@
 
 # Uses fixed grammar for testing. If grammar is changed, the tests
 # need to change as well
-cp $(pwd)/server/testFixture/Program.g4 $(pwd)/server/resources/Program.g4
-cd $(pwd)/server
+cp "$(pwd)/server/testFixture/Program.g4" "$(pwd)/server/resources/Program.g4"
+cd "$(pwd)/server" || return
 npm run build-parser
 
 cd ../
