@@ -13,3 +13,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: yegor256/copyrights-action@0.0.8
+        with:
+          ignore: >-
+            target/**
+            node_modules/**/*.js
+            docs/**
+
