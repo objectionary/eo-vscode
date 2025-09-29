@@ -29,6 +29,8 @@ path = [
     "renovate.json",
     "server/resources/**",
     "server/src/parser/**",
+    "server/testFixture/**",
+    "client/testFixture/**",
     "docs/**"
 ]
 precedence = "override"
