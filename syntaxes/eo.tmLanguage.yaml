@@ -15,7 +15,8 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
-
+---
+# yamllint disable rule:line-length
 $schema: https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json
 scopeName: source.eo
 name: EO
