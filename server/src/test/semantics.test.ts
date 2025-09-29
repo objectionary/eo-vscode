@@ -1,3 +1,6 @@
+// SPDX-FileCopyrightText: Copyright (c) 2021-2025 Objectionary.com
+// SPDX-License-Identifier: MIT
+
 import { SemanticTokensProvider } from "../semantics";
 import { SemanticTokensClientCapabilities } from "vscode-languageserver/node.js";
 import * as fs from "fs";

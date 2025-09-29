@@ -27,6 +27,9 @@ path = [
     "**/Gemfile.lock",
     "README.md",
     "renovate.json",
+    "server/resources/**",
+    "server/src/parser/**",
+    "docs/**"
 ]
 precedence = "override"
 SPDX-FileCopyrightText = "Copyright (c) 2025 Yegor Bugayenko"

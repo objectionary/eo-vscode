@@ -1,3 +1,6 @@
+// SPDX-FileCopyrightText: Copyright (c) 2021-2025 Objectionary.com
+// SPDX-License-Identifier: MIT
+
 /**
  * Provides the errors detected during the parsing of an input program.
  * @module ErrorListener
