@@ -1,0 +1,10 @@
+# SPDX-FileCopyrightText: Copyright (c) 2025 Yegor Bugayenko
+# SPDX-License-Identifier: MIT
+
+[default]
+extend-ignore-identifiers-re = [
+  "ful",       	# false positive
+  "ue",       	# false positive
+  "ative",		# false positive
+  "ment"		# false positive
+]

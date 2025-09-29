@@ -22,7 +22,7 @@ at Visual Studio Marketplace.
 
 ## Structure
 
-Theis extension is written in **TypeScript**, was developed with **Node 16**
+This extension is written in **TypeScript**, was developed with **Node 16**
 and has two main parts: the client and the server. Inside `server/src` yo can
 find all the code related to the server side. All the code for the client side
 is located at `client/src`.
@@ -72,4 +72,4 @@ npm run linter
 npm run compile
 ```
 
-before commiting.
+before committing.
