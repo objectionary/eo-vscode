@@ -1,3 +1,0 @@
-[args...] > hello
-  QQ.io.stdout > @
-    "Hello, world!\n"
