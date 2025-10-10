@@ -1,3 +1,6 @@
+// SPDX-FileCopyrightText: Copyright (c) 2021-2025 Objectionary.com
+// SPDX-License-Identifier: MIT
+
 import * as vscode from "vscode";
 import * as assert from "assert";
 import * as fs from "fs";

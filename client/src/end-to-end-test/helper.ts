@@ -1,6 +1,8 @@
 /* --------------------------------------------------------------------------------------------
  * SPDX-FileCopyrightText: Copyright (c) Microsoft Corporation. All rights reserved.
+// SPDX-FileCopyrightText: Copyright (c) 2021-2025 Objectionary.com
  * SPDX-License-Identifier: MIT
+*/
 
 import * as vscode from "vscode";
 import * as path from "path";
