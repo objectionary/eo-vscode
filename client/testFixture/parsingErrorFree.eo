@@ -1,13 +1,23 @@
-+package sandbox
-+alias sandbox.fibonacci
-+alias org.eolang.io.stdout
-+alias org.eolang.txt.sscanf
-# +alias org.eolang.txt.sprintf
++home https://www.eolang.org
++spdx SPDX-FileCopyrightText: Copyright (c) 2024-2025 Objectionary.com
++spdx SPDX-License-Identifier: MIT
 
-[args...] > app
-  stdout > @
-    sprintf
-      "%dth Fibonacci number is %d\n"
-      (sscanf "%d" (args.at 0)).at 0 > n
-      fibonacci n
+# Fibonacci number.
+[n] > fibonacci
+  if. > @
+    n.lte 1
+    n
+    plus.
+      fibonacci (n.minus 1)
+      fibonacci (n.minus 2)
       
+  # The 8th number.
+  [] +> eights-fibonacci-number
+    eq. > @
+      13
+      fibonacci 8
+  # The fifth number.
+  [] +> fifth-fibonacci-number
+    eq. > @
+      7
+      fibonacci 5
