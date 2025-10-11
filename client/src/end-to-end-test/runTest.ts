@@ -22,7 +22,11 @@ async function main() {
         const extensionTestsPath = path.resolve(__dirname, "./index");
 
         // Download VS Code, unzip it and run the integration test
-        await runTests({ extensionDevelopmentPath, extensionTestsPath });
+        await runTests({
+            extensionDevelopmentPath,
+            extensionTestsPath,
+            launchArgs: ["--disable-extensions"] // Disable other extensions!
+        });
     } catch (err) {
         process.exit(1);
     }
