@@ -30,7 +30,7 @@ let client: LanguageClient;
  */
 export function activate(context: ExtensionContext) {
     const serverModule = context.asAbsolutePath(
-        path.join("server", "out", "server.js")
+        path.join("server", "compiled", "server.js")
     );
 
     // The debug options for the server
