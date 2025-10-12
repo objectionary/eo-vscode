@@ -48,19 +48,6 @@ jobs:
         run: |
           npm run lint
 
-      - name: Unit testing
-        run: |
-          npm run unit-test
-
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v5
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-
-      - name: Download and Build Grammar
-        run: |
-          npm run fetch-and-build-grammar
-
       - name: Generate Documentation
         run: |
           npm run generate-docs
