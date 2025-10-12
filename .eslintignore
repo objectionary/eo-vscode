@@ -2,9 +2,3 @@
 # SPDX-License-Identifier: MIT
 
 node_modules/**
-client/node_modules/**
-client/out/**
-client/src/test/**
-server/node_modules/**
-server/out/**
-server/src/parser/**
