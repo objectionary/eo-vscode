@@ -23,12 +23,11 @@ at Visual Studio Marketplace.
 ## Structure
 
 This extension is written in **TypeScript**, was developed with **Node 16**
-and has two main parts: the client and the server. Inside `server/src` yo can
-find all the code related to the server side. All the code for the client side
-is located at `client/src`.
+and has two primary components:
 
-The code parser is generated with ANTLR4 using the latest version of the
-[EO grammar](https://raw.githubusercontent.com/objectionary/eo/master/eo-parser/src/main/antlr4/org/eolang/parser/Program.g4).
+- **Client**: The source code is located in `client/src`.
+- **Server**: We're using the [eo-lsp-server](https://github.com/objectionary/eo-lsp-server)
+as the server, which is integrated as a git submodule located in the server/ folder.s
 
 Publishing the extension is done with [Rultor](https://github.com/yegor256/rultor)
 (see `.rultor.yml`).
