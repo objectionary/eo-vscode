@@ -79,11 +79,9 @@
     "vscode:prepublish": "npm run compile",
     "compile": "tsc -b",
     "watch": "tsc -b -w",
-    "lint": "eslint ./client/src ./server/src --ext .ts,.tsx",
-    "postinstall": "cd client && npm install && cd ../server && npm install && cd ..",
-    "fetch-and-build-grammar": "cd server && npm run get-grammar && npm run build-parser && cd ..",
+    "lint": "eslint ./client/src --ext .ts,.tsx",
+    "postinstall": "cd client && npm install && cd ..",
     "convert-yaml": "npx js-yaml syntaxes/eo.tmLanguage.yaml > syntaxes/eo.tmLanguage.json",
-    "unit-test": "bash scripts/setTestFixture.sh && jest",
     "end-to-end-test": "sh ./scripts/e2e.sh",
     "generate-docs": "npx typedoc"
   },

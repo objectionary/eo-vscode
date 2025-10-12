@@ -9,6 +9,4 @@ export CODE_TESTS_PATH
 export CODE_TESTS_WORKSPACE
 export DISPLAY=:0
 
-bash "$(pwd)/scripts/setTestFixture.sh"
-
 node "$(pwd)/client/out/end-to-end-test/runTest"

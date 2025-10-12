@@ -16,12 +16,11 @@
         ".vscode-test"
     ],
     "references": [
-        { "path": "./client" },
-        { "path": "./server" }
+        { "path": "./client" }
     ],
     "typedocOptions": {
-        "entryPoints": ["server/src/*.ts", "client/src/*.ts"],
-        "exclude": ["server/src/parser/*.ts", "**/test/*"],
+        "entryPoints": ["client/src/*.ts"],
+        "exclude": ["**/test/*"],
         "out": "docs"
     }
 }
