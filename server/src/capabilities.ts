@@ -1,3 +1,6 @@
+// SPDX-FileCopyrightText: Copyright (c) 2021-2025 Objectionary.com
+// SPDX-License-Identifier: MIT
+
 /**
  * Defines the capabilities of the Language Server
  * @module Capabilities

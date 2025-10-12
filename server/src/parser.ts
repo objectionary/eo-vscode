@@ -1,3 +1,6 @@
+// SPDX-FileCopyrightText: Copyright (c) 2021-2025 Objectionary.com
+// SPDX-License-Identifier: MIT
+
 /**
  * Performs the parsing of the text document and reports on errors found.
  * @module Parser

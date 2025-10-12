@@ -1,5 +1,9 @@
+# SPDX-FileCopyrightText: Copyright (c) 2021-2025 Objectionary.com
+# SPDX-License-Identifier: MIT
+---
+# yamllint disable rule:line-length
 name: Build
-on:
+'on':
   push:
     branches:
       - master
@@ -12,20 +16,19 @@ on:
 
 jobs:
   build:
-    name: Build
 
     strategy:
       matrix:
         node-version: [16.x]
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
       - name: Cache node modules
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
@@ -33,7 +36,7 @@ jobs:
             ${{ runner.os }}-node-
 
       - name: Node ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
 
@@ -50,10 +53,10 @@ jobs:
           npm run unit-test
 
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-      
+
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:
@@ -67,14 +70,14 @@ jobs:
       - name: Generate Documentation
         run: |
           npm run generate-docs
-          
+
       - name: Pre-publish routine
         run: |
           npm run convert-yaml
           npm run vscode:prepublish
 
           # Reference: https://github.com/bahmutov/eleventy-example/blob/main/.github/workflows/ci.yml#L27
-      
+
       - name: Staging Checks ✅
         if: ${{ success() }}
         # set the merge commit status check
@@ -91,7 +94,7 @@ jobs:
             "description": "Staging checks passed",
             "target_url": "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
           }'
-          
+
       - name: Staging Checks 🚨
         if: ${{ failure() }}
         # set the merge commit status check

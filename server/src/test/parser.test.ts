@@ -1,3 +1,6 @@
+// SPDX-FileCopyrightText: Copyright (c) 2021-2025 Objectionary.com
+// SPDX-License-Identifier: MIT
+
 import { antlrTypeNumToString, getTokenTypes, tokenize, getParserErrors } from "../parser";
 import * as fs from "fs";
 import * as path from "path";

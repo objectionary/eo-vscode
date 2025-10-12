@@ -1,7 +1,7 @@
-/* --------------------------------------------------------------------------------------------
- * Copyright (c) Microsoft Corporation. All rights reserved.
- * Licensed under the MIT License. See License.txt in the project root for license information.
- * ------------------------------------------------------------------------------------------ */
+// SPDX-FileCopyrightText: Copyright (c) Microsoft Corporation. All rights reserved.
+// SPDX-FileCopyrightText: Copyright (c) 2021-2025 Objectionary.com
+// SPDX-License-Identifier: MIT
+
 import * as path from "path";
 import * as Mocha from "mocha";
 import * as glob from "glob";
