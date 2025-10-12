@@ -80,7 +80,7 @@
     "compile": "tsc -b",
     "watch": "tsc -b -w",
     "lint": "eslint ./client/src --ext .ts,.tsx",
-    "postinstall": "cd client && npm install && cd ../server && npm install && cd ..",
+    "postinstall": "cd client && npm install && cd ../server && npm run build && cd ..",
     "fetch-and-build-grammar": "cd server && npm run build && cd ..",
     "convert-yaml": "npx js-yaml syntaxes/eo.tmLanguage.yaml > syntaxes/eo.tmLanguage.json",
     "unit-test": "cd server && npm run test && cd ..",
