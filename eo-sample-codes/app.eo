@@ -12,4 +12,3 @@
       "%dth Fibonacci number is %d\n"
       (sscanf "%d" (args.at 0)).at 0 > n
       fibonacci n
-      

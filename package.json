@@ -1,89 +1,65 @@
 {
-  "name": "eo",
-  "version": "0.0.0",
-  "publisher": "eolang",
-  "displayName": "EO",
-  "description": "A language extension for the EO Programming Language. Provides syntax highlighting and parsing error checking.",
-  "author": "Eduardo Fernandes, Anatoliy Baskakov, Roman Nabiullin",
-  "license": "SEE LICENSE IN LICENSE.txt",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/objectionary/eo-vscode"
-  },
-  "categories": [
-    "Programming Languages"
-  ],
-  "keywords": [
-    "eo",
-    "eolang"
-  ],
-  "engines": {
-    "vscode": "^1.63.0",
-    "node": ">=16.0.0"
-  },
   "activationEvents": [
     "onLanguage:eo"
   ],
-  "main": "./out/extension",
-  "icon": "icons/cactus-128.png",
+  "author": "Eduardo Fernandes, Anatoliy Baskakov, Roman Nabiullin",
+  "categories": [
+    "Programming Languages"
+  ],
   "contributes": {
-    "languages": [
-      {
-        "id": "eo",
-        "aliases": [
-          "EO",
-          "eo"
-        ],
-        "extensions": [
-          ".eo"
-        ],
-        "configuration": "./language-configuration.json",
-        "icon": {
-          "light": "./icons/cactus-128.png",
-          "dark": "./icons/cactus-128.png"
-        }
-      }
-    ],
-    "grammars": [
-      {
-        "language": "eo",
-        "scopeName": "source.eo",
-        "path": "./syntaxes/eo.tmLanguage.json"
-      }
-    ],
     "configuration": {
-      "type": "object",
-      "title": "Configuration",
       "properties": {
         "languageServerExample.maxNumberOfProblems": {
-          "scope": "resource",
-          "type": "number",
           "default": 100,
-          "description": "Controls the maximum number of problems produced by the server."
+          "description": "Controls the maximum number of problems produced by the server.",
+          "scope": "resource",
+          "type": "number"
         },
         "languageServerExample.trace.server": {
-          "scope": "window",
-          "type": "string",
+          "default": "off",
+          "description": "Traces the communication between VS Code and the language server.",
           "enum": [
             "off",
             "messages",
             "verbose"
           ],
-          "default": "off",
-          "description": "Traces the communication between VS Code and the language server."
+          "scope": "window",
+          "type": "string"
         }
+      },
+      "title": "Configuration",
+      "type": "object"
+    },
+    "grammars": [
+      {
+        "language": "eo",
+        "path": "./syntaxes/eo.tmLanguage.json",
+        "scopeName": "source.eo"
       }
-    }
+    ],
+    "languages": [
+      {
+        "aliases": [
+          "EO",
+          "eo"
+        ],
+        "configuration": "./language-configuration.json",
+        "extensions": [
+          ".eo"
+        ],
+        "icon": {
+          "dark": "./icons/cactus-128.png",
+          "light": "./icons/cactus-128.png"
+        },
+        "id": "eo"
+      }
+    ]
   },
-  "scripts": {
-    "vscode:prepublish": "npm run compile",
-    "compile": "tsc -b",
-    "watch": "tsc -b -w",
-    "lint": "eslint ./src --ext .ts,.tsx",
-    "convert-yaml": "npx js-yaml syntaxes/eo.tmLanguage.yaml > syntaxes/eo.tmLanguage.json",
-    "end-to-end-test": "sh ./scripts/e2e.sh",
-    "generate-docs": "npx typedoc"
+  "dependencies": {
+    "eo-lsp-server": "^0.3.0",
+    "vscode-languageclient": "^7.0.0"
   },
+  "description": "A language extension for the EO Programming Language. Provides syntax highlighting and parsing error checking.",
   "devDependencies": {
     "@babel/core": "^7.20.5",
     "@babel/preset-env": "^7.20.2",
@@ -107,8 +83,32 @@
     "typescript": "^4.8.4",
     "vsce": "^2.13.0"
   },
-  "dependencies": {
-    "eo-lsp-server": "^0.3.0",
-    "vscode-languageclient": "^7.0.0"
-  }
+  "displayName": "EO",
+  "engines": {
+    "node": ">=16.0.0",
+    "vscode": "^1.63.0"
+  },
+  "icon": "icons/cactus-128.png",
+  "keywords": [
+    "eo",
+    "eolang"
+  ],
+  "license": "SEE LICENSE IN LICENSE.txt",
+  "main": "./out/extension",
+  "name": "eo",
+  "publisher": "eolang",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/objectionary/eo-vscode"
+  },
+  "scripts": {
+    "compile": "tsc -b",
+    "convert-yaml": "npx js-yaml syntaxes/eo.tmLanguage.yaml > syntaxes/eo.tmLanguage.json",
+    "end-to-end-test": "sh ./scripts/e2e.sh",
+    "generate-docs": "npx typedoc",
+    "lint": "eslint ./src --ext .ts,.tsx",
+    "vscode:prepublish": "npm run compile",
+    "watch": "tsc -b -w"
+  },
+  "version": "0.0.0"
 }

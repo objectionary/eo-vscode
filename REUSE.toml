@@ -25,10 +25,10 @@ path = [
     "**/*.vm",
     "**/CNAME",
     "**/Gemfile.lock",
+    "docs/**",
     "README.md",
     "renovate.json",
     "testFixture/**",
-    "docs/**"
 ]
 precedence = "override"
 SPDX-FileCopyrightText = "Copyright (c) 2025 Yegor Bugayenko"

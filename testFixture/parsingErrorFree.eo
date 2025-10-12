@@ -10,7 +10,7 @@
     plus.
       fibonacci (n.minus 1)
       fibonacci (n.minus 2)
-      
+
   # The 8th number.
   [] +> eights-fibonacci-number
     eq. > @

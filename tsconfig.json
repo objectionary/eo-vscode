@@ -1,23 +1,29 @@
 {
-    "compilerOptions": {
-        "module": "commonjs",
-        "target": "es2020",
-        "lib": ["es2020"],
-        "outDir": "out",
-        "rootDir": "src",
-        "sourceMap": true,
-        "skipLibCheck": true
-    },
-    "include": [
-        "src"
+  "compilerOptions": {
+    "lib": [
+      "es2020"
+    ],
+    "module": "commonjs",
+    "outDir": "out",
+    "rootDir": "src",
+    "skipLibCheck": true,
+    "sourceMap": true,
+    "target": "es2020"
+  },
+  "exclude": [
+    "node_modules",
+    ".vscode-test"
+  ],
+  "include": [
+    "src"
+  ],
+  "typedocOptions": {
+    "entryPoints": [
+      "src/*.ts"
     ],
     "exclude": [
-        "node_modules",
-        ".vscode-test"
+      "**/test/*"
     ],
-    "typedocOptions": {
-        "entryPoints": ["src/*.ts"],
-        "exclude": ["**/test/*"],
-        "out": "docs"
-    }
+    "out": "docs"
+  }
 }

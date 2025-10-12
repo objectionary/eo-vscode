@@ -1,6 +1,5 @@
 {
   "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
-  "scopeName": "source.eo",
   "name": "EO",
   "patterns": [
     {
@@ -23,56 +22,57 @@
     }
   ],
   "repository": {
-    "keywords": {
+    "comments": {
       "patterns": [
         {
-          "name": "keyword.control.eo",
-          "match": "\\b(if|while|for|return)\\b"
-        }
-      ]
-    },
-    "meta": {
-      "patterns": [
-        {
-          "name": "markup.heading.eo",
-          "match": "\\+\\w+ .*"
+          "match": "#.*",
+          "name": "comment.line.eo"
         }
       ]
     },
     "constants": {
       "patterns": [
         {
-          "name": "constant.numeric.eo",
-          "match": "(\\+|-)?(0|0?[1-9][0-9]*)"
+          "match": "(\\+|-)?(0|0?[1-9][0-9]*)",
+          "name": "constant.numeric.eo"
+        }
+      ]
+    },
+    "keywords": {
+      "patterns": [
+        {
+          "match": "\\b(if|while|for|return)\\b",
+          "name": "keyword.control.eo"
+        }
+      ]
+    },
+    "meta": {
+      "patterns": [
+        {
+          "match": "\\+\\w+ .*",
+          "name": "markup.heading.eo"
         }
       ]
     },
     "operators": {
       "patterns": [
         {
-          "name": "keyword.operator.new.eo",
-          "match": "\\*|\\.\\.\\.|\\!|/|:|\\\\|>|<|&|\\$|\\+|-|\\?|\\.|@|\\^"
-        }
-      ]
-    },
-    "comments": {
-      "patterns": [
-        {
-          "name": "comment.line.eo",
-          "match": "#.*"
+          "match": "\\*|\\.\\.\\.|\\!|/|:|\\\\|>|<|&|\\$|\\+|-|\\?|\\.|@|\\^",
+          "name": "keyword.operator.new.eo"
         }
       ]
     },
     "strings": {
-      "name": "string.quoted.double.eo",
       "begin": "\"",
       "end": "\"",
+      "name": "string.quoted.double.eo",
       "patterns": [
         {
-          "name": "constant.character.escape.eo",
-          "match": "\\\\."
+          "match": "\\\\.",
+          "name": "constant.character.escape.eo"
         }
       ]
     }
-  }
+  },
+  "scopeName": "source.eo"
 }
