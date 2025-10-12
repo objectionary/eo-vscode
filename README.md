@@ -1,7 +1,6 @@
 # VSCode plugin for EO
 
 [![Build](https://github.com/objectionary/eo-vscode/actions/workflows/build.yml/badge.svg)](https://github.com/objectionary/eo-vscode/actions/workflows/build.yml)
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=EOLangVSCode_eo-vscode&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=EOLangVSCode_eo-vscode)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=EOLangVSCode_eo-vscode&metric=coverage)](https://sonarcloud.io/summary/new_code?id=EOLangVSCode_eo-vscode)
 ![GitHub](https://img.shields.io/github/license/objectionary/eo-vscode)
 
