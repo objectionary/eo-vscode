@@ -1,12 +1,7 @@
-!server/resources/docs.txt
-!server/src/parser/docs.txt
 .DS_Store
 .idea/
 .vscode-test
-client/server
 coverage
 node_modules
 node_modules/
 out
-server/resources/*
-server/src/parser/*

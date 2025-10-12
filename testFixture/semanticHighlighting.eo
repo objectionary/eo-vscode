@@ -1,0 +1,22 @@
++home https://www.eolang.org
++spdx SPDX-FileCopyrightText: Copyright (c) 2024-2025 Objectionary.com
++spdx SPDX-License-Identifier: MIT
+
+[args] > app
+  malloc.for > @
+    0
+    [x] >>
+      seq * > @
+        x.put 2
+        while
+          x.as-number.lt 6 > [i] >>
+          [i] >>
+            seq * > @
+              QQ.io.stdout
+                QQ.txt.sprintf *1
+                  "%d x %1$d = %d\n"
+                  x
+                  x.as-number.times x
+              x.put
+                x.as-number.plus 1
+        true

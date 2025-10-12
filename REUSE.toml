@@ -27,10 +27,7 @@ path = [
     "**/Gemfile.lock",
     "README.md",
     "renovate.json",
-    "server/resources/**",
-    "server/src/parser/**",
-    "server/testFixture/**",
-    "client/testFixture/**",
+    "testFixture/**",
     "docs/**"
 ]
 precedence = "override"
