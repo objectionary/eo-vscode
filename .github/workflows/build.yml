@@ -3,9 +3,7 @@
 ---
 # yamllint disable rule:line-length
 name: Build
-# False positive
-# yamllint disable-line rule:truthy
-on:
+'on':
   push:
     branches:
       - master
