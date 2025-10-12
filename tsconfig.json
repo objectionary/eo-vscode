@@ -15,9 +15,6 @@
         "node_modules",
         ".vscode-test"
     ],
-    "references": [
-        { "path": "./client" }
-    ],
     "typedocOptions": {
         "entryPoints": ["client/src/*.ts"],
         "exclude": ["**/test/*"],

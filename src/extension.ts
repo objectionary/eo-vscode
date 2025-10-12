@@ -30,7 +30,7 @@ let client: LanguageClient;
  */
 export function activate(context: ExtensionContext) {
     const serverModule = context.asAbsolutePath(
-        path.join("client", "node_modules", "eo-lsp-server", "dist", "index.js")
+        path.join("node_modules", "eo-lsp-server", "dist", "index.js")
     );
 
     // The debug options for the server

@@ -24,7 +24,7 @@
   "activationEvents": [
     "onLanguage:eo"
   ],
-  "main": "./client/out/extension",
+  "main": "./out/extension",
   "icon": "icons/cactus-128.png",
   "contributes": {
     "languages": [
@@ -79,8 +79,7 @@
     "vscode:prepublish": "npm run compile",
     "compile": "tsc -b",
     "watch": "tsc -b -w",
-    "lint": "eslint ./client/src --ext .ts,.tsx",
-    "postinstall": "cd client && npm install && cd ..",
+    "lint": "eslint ./src --ext .ts,.tsx",
     "convert-yaml": "npx js-yaml syntaxes/eo.tmLanguage.yaml > syntaxes/eo.tmLanguage.json",
     "end-to-end-test": "sh ./scripts/e2e.sh",
     "generate-docs": "npx typedoc"
@@ -95,6 +94,7 @@
     "@types/vscode": "^1.63.0",
     "@typescript-eslint/eslint-plugin": "^5.30.0",
     "@typescript-eslint/parser": "^5.30.0",
+    "@vscode/test-electron": "^2.1.2",
     "babel-jest": "^29.3.1",
     "eslint": "^8.28.0",
     "eslint-config-eslint": "^7.0.0",
@@ -106,5 +106,9 @@
     "typedoc": "^0.23.21",
     "typescript": "^4.8.4",
     "vsce": "^2.13.0"
+  },
+  "dependencies": {
+    "eo-lsp-server": "^0.3.0",
+    "vscode-languageclient": "^7.0.0"
   }
 }
