@@ -9,4 +9,5 @@ export CODE_TESTS_PATH
 export CODE_TESTS_WORKSPACE
 export DISPLAY=:0
 
+npm run compile
 node "$(pwd)/out/end-to-end-test/runTest"
