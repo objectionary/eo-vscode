@@ -16,7 +16,7 @@
         ".vscode-test"
     ],
     "typedocOptions": {
-        "entryPoints": ["client/src/*.ts"],
+        "entryPoints": ["src/*.ts"],
         "exclude": ["**/test/*"],
         "out": "docs"
     }
