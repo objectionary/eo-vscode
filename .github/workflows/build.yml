@@ -48,10 +48,6 @@ jobs:
         run: |
           npm run lint
 
-      - name: Generate Documentation
-        run: |
-          npm run generate-docs
-
       - name: Pre-publish routine
         run: |
           npm run convert-yaml
