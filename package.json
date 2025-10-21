@@ -30,13 +30,6 @@
       "title": "Configuration",
       "type": "object"
     },
-    "grammars": [
-      {
-        "language": "eo",
-        "path": "./syntaxes/eo.tmLanguage.json",
-        "scopeName": "source.eo"
-      }
-    ],
     "languages": [
       {
         "aliases": [
