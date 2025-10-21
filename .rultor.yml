@@ -19,10 +19,10 @@ release:
         [[ "${tag}" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]] || exit -1
         npm version ${tag} --no-git-tag-version
         npm install
-        npm run convert-yaml && npm run vscode:prepublish
+        npm run vscode:prepublish
         cat ../pat.txt | vsce login eolang
         vsce publish
 merge:
     script: |-
         npm install
-        npm run convert-yaml && npm run vscode:prepublish
+        npm run vscode:prepublish

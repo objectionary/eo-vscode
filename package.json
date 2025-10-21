@@ -71,7 +71,6 @@
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-n": "^17.23.1",
     "jest": "^30.0.0",
-    "js-yaml": "^4.1.0",
     "mocha": "^11.0.0",
     "ts-node": "^10.9.1",
     "typedoc": "^0.28.0",
@@ -97,7 +96,6 @@
   },
   "scripts": {
     "compile": "tsc -b",
-    "convert-yaml": "npx js-yaml syntaxes/eo.tmLanguage.yaml > syntaxes/eo.tmLanguage.json",
     "end-to-end-test": "sh ./scripts/e2e.sh",
     "generate-docs": "npx typedoc",
     "lint": "eslint ./src --ext .ts,.tsx",
