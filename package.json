@@ -73,8 +73,8 @@
     "@typescript-eslint/parser": "^8.0.0",
     "@vscode/test-electron": "^2.1.2",
     "babel-jest": "^30.0.0",
-    "eslint": "^8.28.0",
-    "eslint-config-eslint": "^7.0.0",
+    "eslint": "^9.0.0",
+    "eslint-config-eslint": "^13.0.0",
     "eslint-plugin-import": "^2.26.0",
     "jest": "^30.0.0",
     "js-yaml": "^4.1.0",
@@ -85,7 +85,7 @@
   },
   "displayName": "EO",
   "engines": {
-    "node": ">=16.0.0",
+    "node": ">=18.0.0",
     "vscode": "^1.63.0"
   },
   "icon": "icons/cactus-128.png",
