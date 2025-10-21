@@ -48,13 +48,6 @@ test your code with:
 npm run end-to-end-test
 ```
 
-If you have modified any of the code documentation, generate new documentation
-files with:
-
-```bash
-npm run generate-docs
-```
-
 Create a pull request. To avoid frustration, run:
 
 ```bash
