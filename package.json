@@ -76,6 +76,7 @@
     "eslint": "^9.0.0",
     "eslint-config-eslint": "^13.0.0",
     "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-n": "^17.23.1",
     "jest": "^30.0.0",
     "js-yaml": "^4.1.0",
     "mocha": "^11.0.0",
