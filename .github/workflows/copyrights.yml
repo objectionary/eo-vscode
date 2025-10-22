@@ -17,3 +17,4 @@ jobs:
           ignore: >-
             target/**
             node_modules/**/*.js
+            docs/**

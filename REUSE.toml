@@ -25,6 +25,7 @@ path = [
     "**/*.vm",
     "**/CNAME",
     "**/Gemfile.lock",
+    "docs/**",
     "README.md",
     "renovate.json",
     "testFixture/**",

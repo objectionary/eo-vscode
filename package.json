@@ -81,6 +81,7 @@
     "js-yaml": "^4.1.0",
     "mocha": "^11.0.0",
     "ts-node": "^10.9.1",
+    "typedoc": "^0.28.0",
     "typescript": "^5.0.0"
   },
   "displayName": "EO",
@@ -105,6 +106,7 @@
     "compile": "tsc -b",
     "convert-yaml": "npx js-yaml syntaxes/eo.tmLanguage.yaml > syntaxes/eo.tmLanguage.json",
     "end-to-end-test": "sh ./scripts/e2e.sh",
+    "generate-docs": "npx typedoc",
     "lint": "eslint ./src --ext .ts,.tsx",
     "vscode:prepublish": "npm run compile",
     "watch": "tsc -b -w"
