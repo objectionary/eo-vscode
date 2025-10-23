@@ -33,7 +33,7 @@
     "grammars": [
       {
         "language": "eo",
-        "path": "./syntaxes/eo.tmLanguage.json",
+        "path": "./out/eo.tmLanguage.json",
         "scopeName": "source.eo"
       }
     ],
@@ -106,8 +106,9 @@
   },
   "scripts": {
     "compile": "tsc -b",
-    "convert-yaml": "npx js-yaml syntaxes/eo.tmLanguage.yaml > syntaxes/eo.tmLanguage.json",
+    "get-grammar": "sh ./scripts/get-grammar.sh",
     "end-to-end-test": "sh ./scripts/e2e.sh",
+    "test": "npx jest --coverage",
     "generate-docs": "npx typedoc",
     "lint": "eslint ./src --ext .ts,.tsx",
     "vscode:prepublish": "npm run compile",

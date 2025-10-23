@@ -8,3 +8,4 @@ node_modules/
 out
 tsconfig.tsbuildinfo
 docs/
+download/
