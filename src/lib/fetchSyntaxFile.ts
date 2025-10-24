@@ -1,6 +1,7 @@
 // SPDX-FileCopyrightText: Copyright (c) 2021-2025 Objectionary.com
 // SPDX-License-Identifier: MIT
 
+import { error } from "console";
 import * as fs from "fs";
 import * as https from "https";
 
@@ -28,24 +29,24 @@ export function fetchSyntaxFile(
   url: string,
   outputPath: string
 ): Promise<void> {
-  return new Promise((resolve, reject) => {
-    const file = fs.createWriteStream(outputPath);
+  return new Promise((resolve, reject) => {    
     https
       .get(url, (response) => {
         if (response.statusCode !== 200) {
           reject(new Error(`Failed to download: ${response.statusCode}`));
           return;
         }
-        response.pipe(file);
-        file.on("finish", () => {
-          file.close();
+        const fileStream = fs.createWriteStream(outputPath);
+        fileStream.on("finish", () => {
+          fileStream.close();
           resolve();
         });
+        fileStream.on("error", (err) => {
+          reject(err);
+        });
+        response.pipe(fileStream);
       })
       .on("error", (err) => {
-        fs.unlink(outputPath, (unlinkErr) => {
-          err.message = `${err.message} Also failed to cleanup: ${unlinkErr.message}`;
-        });
         reject(err);
       });
   });

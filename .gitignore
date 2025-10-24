@@ -9,3 +9,4 @@ out
 tsconfig.tsbuildinfo
 docs/
 download/
+temp/

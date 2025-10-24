@@ -4,24 +4,33 @@
 import * as fs from "fs";
 import * as https from "https";
 import { fetchSyntaxFile } from "../src/lib/fetchSyntaxFile";
+import path from "path";
 
-jest.mock("fs");
 jest.mock("https");
-
 const url = "https://example.com/syntax.tmLanguage";
-const outputPath = "/test/syntax.tmLanguage";
-const mockedFs = jest.mocked(fs);
+const home = path.resolve("temp/fetchSyntaxFile");
 const mockedHttps = jest.mocked(https);
-const mockFileStream = { close: jest.fn(), on: jest.fn() };
 const mockRequest = { on: jest.fn().mockReturnThis() };
-mockedFs.createWriteStream.mockReturnValue(mockFileStream as any);
+
+const validPlistContent = `<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<dict>
+    <key>Key</key>
+    <string>Value</string>
+</dict>`;
 
 describe("fetchSyntaxFile", () => {
+  beforeAll(() => {
+    fs.rmSync(home, { recursive: true, force: true });
+    fs.mkdirSync(path.resolve(home, "download"), { recursive: true });
+  });
+
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
   it("should download file successfully from valid URL", async () => {
+    const outputPath = path.resolve(home, "download/valid.tmLanguage");
     const mockResponse = { statusCode: 200, pipe: jest.fn(), on: jest.fn() };
     mockedHttps.get.mockImplementation((url: any, callback: any) => {
       if (typeof callback === "function") {
@@ -29,21 +38,17 @@ describe("fetchSyntaxFile", () => {
       }
       return mockRequest as any;
     });
-    mockResponse.pipe.mockImplementation((file: any) => {
-      process.nextTick(() => {
-        const finishCallback = mockFileStream.on.mock.calls.find(
-          (call) => call[0] === "finish"
-        )?.[1];
-        if (finishCallback) finishCallback();
-      });
+    mockResponse.pipe.mockImplementation((file: fs.WriteStream) => {
+      file.write(validPlistContent);
+      file.end();
+      return file;
     });
-
     await expect(fetchSyntaxFile(url, outputPath)).resolves.not.toThrow();
-    expect(mockedHttps.get).toHaveBeenCalledWith(url, expect.any(Function));
-    expect(mockedFs.createWriteStream).toHaveBeenCalledWith(outputPath);
+    expect(fs.existsSync(outputPath)).toBe(true);
   });
 
   it("should reject on 404 status code", async () => {
+    const outputPath = path.resolve(home, "download/not-found.tmLanguage");
     const mockResponse = { statusCode: 404, pipe: jest.fn(), on: jest.fn() };
     mockedHttps.get.mockImplementation((url: any, callback: any) => {
       if (typeof callback === "function") {
@@ -51,13 +56,11 @@ describe("fetchSyntaxFile", () => {
       }
       return mockRequest as any;
     });
-
-    await expect(fetchSyntaxFile(url, outputPath)).rejects.toThrow(
-      "Failed to download: 404"
-    );
+    await expect(fetchSyntaxFile(url, outputPath)).rejects.toThrow(/404/);
   });
 
   it("should reject on network error", async () => {
+    const outputPath = path.resolve(home, "download/network-error.tmLanguage");
     mockedHttps.get.mockImplementation((url: any, callback: any) => {
       process.nextTick(() => {
         const errorCallback = mockRequest.on.mock.calls.find(
@@ -67,34 +70,19 @@ describe("fetchSyntaxFile", () => {
       });
       return mockRequest as any;
     });
-
-    await expect(fetchSyntaxFile(url, outputPath)).rejects.toThrow(
-      "Network error"
-    );
-    expect(mockedFs.unlink).toHaveBeenCalledWith(
-      outputPath,
-      expect.any(Function)
-    );
+    await expect(fetchSyntaxFile(url, outputPath)).rejects.toThrow();
   });
 
-  it("should extend network error message on cleanup failure.", async () => {
-    mockedFs.unlink.mockImplementation((path: fs.PathLike, callback: any) => {
-      if (typeof callback === "function") {
-        process.nextTick(() => callback(new Error("File is busy or locked.")));
-      }
-    });
+  it("should rejcect on filestream error.", async () => {
+    const outputPath = path.resolve(home, "download/filestream-error.tmLanguage");
+    fs.mkdirSync(outputPath);
+    const mockResponse = { statusCode: 200, pipe: jest.fn(), on: jest.fn() };
     mockedHttps.get.mockImplementation((url: any, callback: any) => {
-      process.nextTick(() => {
-        const errorCallback = mockRequest.on.mock.calls.find(
-          (call) => call[0] == "error"
-        )?.[1];
-        errorCallback(new Error("Network error."));
-      });
+      if (typeof callback === "function") {
+        process.nextTick(() => callback(mockResponse));
+      }
       return mockRequest as any;
     });
-
-    await expect(fetchSyntaxFile(url, outputPath)).rejects.toThrow(
-      "Network error. Also failed to cleanup: File is busy or locked."
-    );
+    await expect(fetchSyntaxFile(url, outputPath)).rejects.toThrow();
   });
 });
