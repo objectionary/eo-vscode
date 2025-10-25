@@ -48,14 +48,18 @@ jobs:
         run: |
           npm run lint
 
+      - name: Unit-testing
+        run: |
+          npm run test
+
       - name: Generate Documentation
         run: |
           npm run generate-docs
 
       - name: Pre-publish routine
         run: |
-          npm run convert-yaml
           npm run vscode:prepublish
+          npm run get-grammar
 
           # Reference: https://github.com/bahmutov/eleventy-example/blob/main/.github/workflows/ci.yml#L27
 

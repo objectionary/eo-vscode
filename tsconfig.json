@@ -19,7 +19,8 @@
   ],
   "typedocOptions": {
     "entryPoints": [
-      "src/*.ts"
+      "src/*.ts",
+      "src/lib/*.ts"
     ],
     "exclude": [
       "**/test/*"

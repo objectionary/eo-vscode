@@ -20,10 +20,10 @@ at Visual Studio Marketplace.
 
 ## Structure
 
-This extension is written in **TypeScript**, was developed with **Node 16**
+This extension is written in **TypeScript**, was developed with **Node 18**
 and has two primary components:
 
-- **Client**: The source code is located in `client/src`.
+- **Client**: The source code is located in `src`.
 - **Server**: We're using the [eo-lsp-server](https://github.com/objectionary/eo-lsp-server)
 as the server.
 
@@ -45,6 +45,7 @@ extension running by hitting F5 in the code editor. After modifications,
 test your code with:
 
 ```bash
+npm run test
 npm run end-to-end-test
 ```
 
