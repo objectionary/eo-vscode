@@ -29,45 +29,39 @@ async function run(): Promise<void> {
     console.error("Please provide a URL to the syntax file");
     process.exit(1);
   }
-
-  const filename = path.basename(url);
-  const downloadDir = "download";
-  const outputDir = "out";
-
+  const name = path.basename(url);
+  const input = path.resolve("download");
+  const output = path.resolve("out");
   try {
-    if (!fs.existsSync(downloadDir)) {
-      fs.mkdirSync(downloadDir, { recursive: true });
+    if (!fs.existsSync(input)) {
+      fs.mkdirSync(input, { recursive: true });
     }
-    if (!fs.existsSync(outputDir)) {
-      fs.mkdirSync(outputDir, { recursive: true });
+    if (!fs.existsSync(output)) {
+      fs.mkdirSync(output, { recursive: true });
     }
   } catch (error) {
     console.error("Failed to create directories:", error);
     process.exit(1);
   }
-
-  const downloadFilePath = path.join(downloadDir, filename);
-  const outputFilePath = path.join(outputDir, `${filename}.json`);
-
+  const tmLanguage = path.join(input, name);
+  const json = path.join(output, `${name}.json`);
   console.log(`Downloading from: ${url}`);
   try {
-    await fetchSyntaxFile(url, downloadFilePath);
-    console.log(`✓ Successfully downloaded: ${filename}`);
+    await fetchSyntaxFile(url, tmLanguage);
+    console.log(`✓ Successfully downloaded: ${name}`);
   } catch (error) {
     console.error("✗ Download failed:", error instanceof Error ? error.message : error);
     process.exit(1);
   }
-
-  console.log(`Converting to JSON: ${filename}`);
+  console.log(`Converting to JSON: ${name}`);
   try {
-    plistToJson(downloadFilePath, outputFilePath);
-    console.log(`✓ Successfully converted: ${path.basename(outputFilePath)}`);
-    console.log(`Output file: ${outputFilePath}`);
+    plistToJson(tmLanguage, json);
+    console.log(`✓ Successfully converted: ${path.basename(json)}`);
+    console.log(`Output file: ${json}`);
   } catch (error) {
     console.error("✗ Convert failed:", error instanceof Error ? error.message : error);
     process.exit(1);
   }
-
   console.log("✓ Process completed successfully!");
 }
 

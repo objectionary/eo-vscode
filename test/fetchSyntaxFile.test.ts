@@ -12,7 +12,7 @@ const home = path.resolve("temp/fetchSyntaxFile");
 const mockedHttps = jest.mocked(https);
 const mockRequest = { on: jest.fn().mockReturnThis() };
 
-const validPlistContent = `<?xml version="1.0" encoding="UTF-8"?>
+const plist = `<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <dict>
     <key>Key</key>
@@ -30,7 +30,7 @@ describe("fetchSyntaxFile", () => {
   });
 
   it("should download file successfully from valid URL", async () => {
-    const outputPath = path.resolve(home, "download/valid.tmLanguage");
+    const output = path.resolve(home, "download/valid.tmLanguage");
     const mockResponse = { statusCode: 200, pipe: jest.fn(), on: jest.fn() };
     mockedHttps.get.mockImplementation((url: any, callback: any) => {
       if (typeof callback === "function") {
@@ -39,16 +39,16 @@ describe("fetchSyntaxFile", () => {
       return mockRequest as any;
     });
     mockResponse.pipe.mockImplementation((file: fs.WriteStream) => {
-      file.write(validPlistContent);
+      file.write(plist);
       file.end();
       return file;
     });
-    await expect(fetchSyntaxFile(url, outputPath)).resolves.not.toThrow();
-    expect(fs.existsSync(outputPath)).toBe(true);
+    await expect(fetchSyntaxFile(url, output)).resolves.not.toThrow();
+    expect(fs.existsSync(output)).toBe(true);
   });
 
   it("should reject on 404 status code", async () => {
-    const outputPath = path.resolve(home, "download/not-found.tmLanguage");
+    const output = path.resolve(home, "download/not-found.tmLanguage");
     const mockResponse = { statusCode: 404, pipe: jest.fn(), on: jest.fn() };
     mockedHttps.get.mockImplementation((url: any, callback: any) => {
       if (typeof callback === "function") {
@@ -56,11 +56,11 @@ describe("fetchSyntaxFile", () => {
       }
       return mockRequest as any;
     });
-    await expect(fetchSyntaxFile(url, outputPath)).rejects.toThrow(/404/);
+    await expect(fetchSyntaxFile(url, output)).rejects.toThrow(/404/);
   });
 
   it("should reject on network error", async () => {
-    const outputPath = path.resolve(home, "download/network-error.tmLanguage");
+    const output = path.resolve(home, "download/network-error.tmLanguage");
     mockedHttps.get.mockImplementation((url: any, callback: any) => {
       process.nextTick(() => {
         const errorCallback = mockRequest.on.mock.calls.find(
@@ -70,12 +70,12 @@ describe("fetchSyntaxFile", () => {
       });
       return mockRequest as any;
     });
-    await expect(fetchSyntaxFile(url, outputPath)).rejects.toThrow();
+    await expect(fetchSyntaxFile(url, output)).rejects.toThrow();
   });
 
   it("should rejcect on filestream error.", async () => {
-    const outputPath = path.resolve(home, "download/filestream-error.tmLanguage");
-    fs.mkdirSync(outputPath);
+    const output = path.resolve(home, "download/filestream-error.tmLanguage");
+    fs.mkdirSync(output);
     const mockResponse = { statusCode: 200, pipe: jest.fn(), on: jest.fn() };
     mockedHttps.get.mockImplementation((url: any, callback: any) => {
       if (typeof callback === "function") {
@@ -83,6 +83,6 @@ describe("fetchSyntaxFile", () => {
       }
       return mockRequest as any;
     });
-    await expect(fetchSyntaxFile(url, outputPath)).rejects.toThrow();
+    await expect(fetchSyntaxFile(url, output)).rejects.toThrow();
   });
 });

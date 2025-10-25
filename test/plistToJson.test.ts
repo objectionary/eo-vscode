@@ -5,7 +5,7 @@ import * as fs from "fs";
 import { plistToJson } from "../src/lib/plistToJson";
 import path from "path";
 
-const validPlistContent = `<?xml version="1.0" encoding="UTF-8"?>
+const tmLanguage = `<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
@@ -29,7 +29,7 @@ const validPlistContent = `<?xml version="1.0" encoding="UTF-8"?>
 </dict>
 </plist>`;
 
-const expectedJsonOutput = `{
+const expected = `{
   "name": "Test Language",
   "scopeName": "source.test",
   "fileTypes": [
@@ -53,26 +53,26 @@ describe("plistToJson tests", () => {
   });
 
   it("should convert valid PLIST to JSON", () => {
-    const inputPath = path.resolve(home, "download/eo.tmLanguage");
-    fs.writeFileSync(inputPath, validPlistContent);
-    const outputPath = path.resolve(home, "out/eo.tmLanguage.json");
-    plistToJson(inputPath, outputPath);
-    expect(fs.existsSync(outputPath)).toBe(true);
-    const actualJsonOutput = fs.readFileSync(outputPath, "utf-8");
-    expect(actualJsonOutput).toBe(expectedJsonOutput);
+    const input = path.resolve(home, "download/eo.tmLanguage");
+    fs.writeFileSync(input, tmLanguage);
+    const output = path.resolve(home, "out/eo.tmLanguage.json");
+    plistToJson(input, output);
+    expect(fs.existsSync(output)).toBe(true);
+    const actual = fs.readFileSync(output, "utf-8");
+    expect(actual).toBe(expected);
   });
 
   it("should throw error for invalid PLIST content", () => {
-    const inputPath = path.resolve(home, "download/invalid.tmLanguage");
-    fs.writeFileSync(inputPath, "This is not valid XML at all!");
-    const outputPath = path.resolve(home, "out/invalid.tmLanguage.json");
-    expect(() => plistToJson(inputPath, outputPath)).toThrow();
-    expect(!fs.existsSync(outputPath)).toBe(true);
+    const input = path.resolve(home, "download/invalid.tmLanguage");
+    fs.writeFileSync(input, "This is not valid XML at all!");
+    const output = path.resolve(home, "out/invalid.tmLanguage.json");
+    expect(() => plistToJson(input, output)).toThrow();
+    expect(!fs.existsSync(output)).toBe(true);
   });
 
   it("should throw error for non-existent input file", () => {
-    const inputPath = path.resolve(home, "download/non-existent.tmLanguage");
-    const outputPath = path.resolve(home, "out/non-existent.tmLanguage.json");
-    expect(() => plistToJson(inputPath, outputPath)).toThrow();
+    const input = path.resolve(home, "download/non-existent.tmLanguage");
+    const output = path.resolve(home, "out/non-existent.tmLanguage.json");
+    expect(() => plistToJson(input, output)).toThrow();
   });
 });

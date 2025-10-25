@@ -1,7 +1,6 @@
 // SPDX-FileCopyrightText: Copyright (c) 2021-2025 Objectionary.com
 // SPDX-License-Identifier: MIT
 
-import { error } from "console";
 import * as fs from "fs";
 import * as https from "https";
 
@@ -9,7 +8,7 @@ import * as https from "https";
  * Downloads a syntax file from the specified URL and saves it to the output path
  *
  * @param url - The URL of the syntax file to download
- * @param outputPath - The local file path where the downloaded file will be saved
+ * @param output - The local file path where the downloaded file will be saved
  * @returns A Promise that resolves when the download completes successfully,
  *          or rejects if an error occurs during download
  *
@@ -25,26 +24,23 @@ import * as https from "https";
  * ```
  */
 
-export function fetchSyntaxFile(
-  url: string,
-  outputPath: string
-): Promise<void> {
-  return new Promise((resolve, reject) => {    
+export function fetchSyntaxFile(url: string, output: string): Promise<void> {
+  return new Promise((resolve, reject) => {
     https
       .get(url, (response) => {
         if (response.statusCode !== 200) {
           reject(new Error(`Failed to download: ${response.statusCode}`));
           return;
         }
-        const fileStream = fs.createWriteStream(outputPath);
-        fileStream.on("finish", () => {
-          fileStream.close();
+        const stream = fs.createWriteStream(output);
+        stream.on("finish", () => {
+          stream.close();
           resolve();
         });
-        fileStream.on("error", (err) => {
+        stream.on("error", (err) => {
           reject(err);
         });
-        response.pipe(fileStream);
+        response.pipe(stream);
       })
       .on("error", (err) => {
         reject(err);

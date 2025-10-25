@@ -7,8 +7,8 @@ import * as plist from "plist";
 /**
  * Converts a PLIST (XML) syntax file to JSON format
  *
- * @param inputPath - Path to the input PLIST (.tmLanguage or .plist) file
- * @param outputPath - Path where the converted JSON file will be saved
+ * @param input - Path to the input PLIST (.tmLanguage or .plist) file
+ * @param output - Path where the converted JSON file will be saved
  *
  * @throws {Error} If the input file cannot be read, the PLIST content is invalid,
  *                 or the output file cannot be written
@@ -23,11 +23,11 @@ import * as plist from "plist";
  * ```
  */
 
-export function plistToJson(inputPath: string, outputPath: string) {
+export function plistToJson(input: string, output: string) {
   try {
-    const tmLanguage = fs.readFileSync(inputPath, "utf-8");
-    const jsonObject = plist.parse(tmLanguage);
-    fs.writeFileSync(outputPath, JSON.stringify(jsonObject, null, 2));
+    const tmLanguage = fs.readFileSync(input, "utf-8");
+    const json = plist.parse(tmLanguage);
+    fs.writeFileSync(output, JSON.stringify(json, null, 2));
   } catch (error) {
     throw new Error(
       `Failed to convert syntax file: ${error instanceof Error ? error.message : String(error)}`
