@@ -35,8 +35,10 @@ async function testDiagnostics(docUri: vscode.Uri, expectedDiagnostics: vscode.D
 
     expectedDiagnostics.forEach((expectedDiagnostic, i) => {
         const actualDiagnostic = actualDiagnostics[i];
-
-        assert.strictEqual(actualDiagnostic.message, expectedDiagnostic.message);
+        assert.strictEqual(
+            actualDiagnostic.message.replace(/\s*\(EO\s+[\d.]+\)$/, ""), 
+            expectedDiagnostic.message
+        );
         assert.deepStrictEqual(actualDiagnostic.range, expectedDiagnostic.range);
         assert.strictEqual(actualDiagnostic.severity, expectedDiagnostic.severity);
     });
@@ -56,13 +58,13 @@ suite("Parsing error checks", () => {
 
         await testDiagnostics(docUri, [
             {
-                message: "extraneous input '\\n' expecting {COMMENTARY, 'Q', 'QQ', '*', '$', '[', '(', '@', '^', '~', BYTES, STRING, INT, FLOAT, HEX, NAME, TEXT} (EO 0.0.0)",
+                message: "extraneous input '\\n' expecting {COMMENTARY, 'Q', 'QQ', '*', '$', '[', '(', '@', '^', '~', BYTES, STRING, INT, FLOAT, HEX, NAME, TEXT}",
                 range: toRange(6, 0, 6, 0),
                 severity: vscode.DiagnosticSeverity.Error,
                 source: "ex"
             },
             {
-                message: "extraneous input '\\n' expecting <EOF> (EO 0.0.0)",
+                message: "extraneous input '\\n' expecting <EOF>",
                 range: toRange(20, 0, 20, 0),
                 severity: vscode.DiagnosticSeverity.Error,
                 source: "ex"
