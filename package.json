@@ -107,7 +107,7 @@
   "scripts": {
     "compile": "tsc -b",
     "get-grammar": "sh ./scripts/get-grammar.sh",
-    "end-to-end-test": "sh ./scripts/e2e.sh",
+    "end-to-end-test": "npm run compile && node ./out/end-to-end-test/runTest",
     "test": "npx jest --coverage",
     "generate-docs": "npx typedoc",
     "lint": "eslint ./src --ext .ts,.tsx",
