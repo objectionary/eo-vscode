@@ -57,7 +57,7 @@
   },
   "dependencies": {
     "@vscode/vsce": "^3.6.2",
-    "eo-lsp-server": "^0.3.0",
+    "eo-lsp-server": "^0.4.0",
     "vscode-languageclient": "^9.0.0"
   },
   "description": "A language extension for the EO Programming Language. Provides syntax highlighting and parsing error checking.",
