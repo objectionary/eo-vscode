@@ -52,6 +52,10 @@ jobs:
         run: |
           npm run test
 
+      - name: Run end-to-end tests
+        run: |
+          xvfb-run -a npm run end-to-end-test
+
       - name: Generate Documentation
         run: |
           npm run generate-docs
