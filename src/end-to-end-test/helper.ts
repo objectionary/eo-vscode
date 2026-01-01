@@ -1,6 +1,6 @@
 /* --------------------------------------------------------------------------------------------
  * SPDX-FileCopyrightText: Copyright (c) Microsoft Corporation. All rights reserved.
-// SPDX-FileCopyrightText: Copyright (c) 2021-2025 Objectionary.com
+// SPDX-FileCopyrightText: Copyright (c) 2021-2026 Objectionary.com
  * SPDX-License-Identifier: MIT
 */
 

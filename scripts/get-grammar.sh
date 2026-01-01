@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# SPDX-FileCopyrightText: Copyright (c) 2021-2025 Objectionary.com
+# SPDX-FileCopyrightText: Copyright (c) 2021-2026 Objectionary.com
 # SPDX-License-Identifier: MIT
 
 GRAMMAR_URL="https://raw.githubusercontent.com/objectionary/eo.tmbundle/refs/heads/master/Syntaxes/eo.tmLanguage"
