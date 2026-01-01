@@ -36,7 +36,7 @@ async function testDiagnostics(docUri: vscode.Uri, expectedDiagnostics: vscode.D
     expectedDiagnostics.forEach((expectedDiagnostic, i) => {
         const actualDiagnostic = actualDiagnostics[i];
         assert.strictEqual(
-            actualDiagnostic.message.replace(/\s*\(EO\s+[\d.]+\)$/, ""), 
+            actualDiagnostic.message.replace(/\s*\(EO\s+[\d.]+\)$/, ""),
             expectedDiagnostic.message
         );
         assert.deepStrictEqual(actualDiagnostic.range, expectedDiagnostic.range);

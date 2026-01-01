@@ -8,18 +8,18 @@ import { fetchSyntaxFile } from "./fetchSyntaxFile";
 
 /**
  * Downloads a syntax file from URL and converts it to JSON format
- * 
+ *
  * @description
  * This script performs two main operations:
  * 1. Downloads a syntax file from the provided URL to a 'download' directory
  * 2. Converts the downloaded file from PLIST (XML) to JSON format in an 'out' directory
- * 
+ *
  * @usage
  * node syntax-processor.js <url>
- * 
+ *
  * @example
  * node syntax-processor.js https://example.com/syntaxes/example.tmLanguage
- * 
+ *
  * @throws Will exit with code 1 if URL is not provided, download fails, or conversion fails
  */
 async function run(): Promise<void> {

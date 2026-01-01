@@ -106,11 +106,11 @@
   },
   "scripts": {
     "compile": "tsc -b",
-    "get-grammar": "sh ./scripts/get-grammar.sh",
     "end-to-end-test": "npm run compile && node ./out/end-to-end-test/runTest",
-    "test": "npx jest --coverage",
     "generate-docs": "npx typedoc",
+    "get-grammar": "sh ./scripts/get-grammar.sh",
     "lint": "eslint ./src --ext .ts,.tsx",
+    "test": "npx jest --coverage",
     "vscode:prepublish": "npm run compile",
     "watch": "tsc -b -w"
   },
