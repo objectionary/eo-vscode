@@ -62,9 +62,9 @@
   },
   "description": "A language extension for the EO Programming Language. Provides syntax highlighting and parsing error checking.",
   "devDependencies": {
-    "@babel/core": "^7.20.5",
-    "@babel/preset-env": "^7.20.2",
-    "@babel/preset-typescript": "^7.18.6",
+    "@babel/core": "^8.0.0",
+    "@babel/preset-env": "^8.0.0",
+    "@babel/preset-typescript": "^8.0.0",
     "@types/jest": "^30.0.0",
     "@types/mocha": "^10.0.1",
     "@types/node": "^24.0.0",
