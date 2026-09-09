@@ -56,7 +56,6 @@
     ]
   },
   "dependencies": {
-    "@vscode/vsce": "^3.6.2",
     "eo-lsp-server": "^0.4.0",
     "vscode-languageclient": "^9.0.0"
   },
@@ -73,6 +72,7 @@
     "@typescript-eslint/eslint-plugin": "^8.0.0",
     "@typescript-eslint/parser": "^8.0.0",
     "@vscode/test-electron": "^2.1.2",
+    "@vscode/vsce": "^3.6.2",
     "babel-jest": "^30.0.0",
     "eslint": "^9.0.0",
     "eslint-config-eslint": "^13.0.0",
