@@ -14,6 +14,9 @@ name: Build
       - master
       - development
 
+concurrency:
+  group: build-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
   build:
 
