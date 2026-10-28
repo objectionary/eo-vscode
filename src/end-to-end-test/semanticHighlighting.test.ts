@@ -21,12 +21,11 @@ async function testSemanticHighlight(docUri: vscode.Uri, expectedSemanticTokens:
         docUri
     )) as vscode.SemanticTokens;
 
-    assert.ok(actualSemanticTokens.data.length >= 2);
-    expectedSemanticTokens.forEach((expectedItem, i) => {
-        const actualItem = actualSemanticTokens.data[i].toString();
-
-        assert.strictEqual(expectedItem, actualItem);
-    });
+    assert.ok(actualSemanticTokens, "Semantic token provider must return tokens");
+    assert.deepStrictEqual(
+        Array.from(actualSemanticTokens.data, token => token.toString()),
+        expectedSemanticTokens
+    );
 }
 
 suite("Semantic Highlighting", () => {
@@ -34,7 +33,7 @@ suite("Semantic Highlighting", () => {
 
     test("Performs semantic highlighting in document", async () => {
         const targetTokens = fs.readFileSync(getDocPath("semanticHighlightingTarget.txt"), "utf8");
-        const targetTokensArray = targetTokens.split("\n");
+        const targetTokensArray = targetTokens.trimEnd().split(/\r?\n/);
 
         await testSemanticHighlight(docUri, targetTokensArray);
     });
