@@ -89,7 +89,7 @@
   "displayName": "EO",
   "engines": {
     "node": ">=18.0.0",
-    "vscode": "^1.63.0"
+    "vscode": "^1.82.0"
   },
   "icon": "icons/cactus-128.png",
   "keywords": [
