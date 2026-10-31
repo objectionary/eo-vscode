@@ -3,6 +3,7 @@
 
 import * as fs from "fs";
 import * as https from "https";
+import { PassThrough } from "stream";
 import { fetchSyntaxFile } from "../src/lib/fetchSyntaxFile";
 import path from "path";
 
@@ -31,20 +32,16 @@ describe("fetchSyntaxFile", () => {
 
   it("should download file successfully from valid URL", async () => {
     const output = path.resolve(home, "download/valid.tmLanguage");
-    const mockResponse = { statusCode: 200, pipe: jest.fn(), on: jest.fn() };
+    const mockResponse = Object.assign(new PassThrough(), { statusCode: 200 });
     mockedHttps.get.mockImplementation((url: any, callback: any) => {
       if (typeof callback === "function") {
         process.nextTick(() => callback(mockResponse));
       }
       return mockRequest as any;
     });
-    mockResponse.pipe.mockImplementation((file: fs.WriteStream) => {
-      file.write(plist);
-      file.end();
-      return file;
-    });
+    mockResponse.end(plist);
     await expect(fetchSyntaxFile(url, output)).resolves.not.toThrow();
-    expect(fs.existsSync(output)).toBe(true);
+    expect(fs.readFileSync(output, "utf8")).toBe(plist);
   });
 
   it("should reject on 404 status code", async () => {
@@ -76,7 +73,7 @@ describe("fetchSyntaxFile", () => {
   it("should rejcect on filestream error.", async () => {
     const output = path.resolve(home, "download/filestream-error.tmLanguage");
     fs.mkdirSync(output);
-    const mockResponse = { statusCode: 200, pipe: jest.fn(), on: jest.fn() };
+    const mockResponse = Object.assign(new PassThrough(), { statusCode: 200 });
     mockedHttps.get.mockImplementation((url: any, callback: any) => {
       if (typeof callback === "function") {
         process.nextTick(() => callback(mockResponse));
@@ -84,5 +81,31 @@ describe("fetchSyntaxFile", () => {
       return mockRequest as any;
     });
     await expect(fetchSyntaxFile(url, output)).rejects.toThrow();
+    expect(fs.statSync(output).isDirectory()).toBe(true);
   });
+
+  it.each([true, false])(
+    "should reject and remove the partial file when the response closes (error: %s)",
+    async (failure) => {
+      const output = path.resolve(home, `download/interrupted-${failure}.tmLanguage`);
+      const response = Object.assign(new PassThrough(), { statusCode: 200 });
+      response.on("error", jest.fn());
+      mockedHttps.get.mockImplementation((url: any, callback: any) => {
+        process.nextTick(() => callback(response));
+        return mockRequest as any;
+      });
+      const pipe = response.pipe.bind(response);
+      response.pipe = (destination: any) => {
+        destination.once("open", () => {
+          response.write(plist.slice(0, 32));
+          response.destroy(failure ? new Error("Interrupted response") : undefined);
+        });
+        return pipe(destination);
+      };
+      await expect(fetchSyntaxFile(url, output)).rejects.toThrow(
+        failure ? "Interrupted response" : "Premature close"
+      );
+      expect(fs.existsSync(output)).toBe(false);
+    }
+  );
 });
