@@ -56,7 +56,7 @@
     ]
   },
   "dependencies": {
-    "@vscode/vsce": "^3.6.2",
+    "@vscode/vsce": "^4.0.0",
     "eo-lsp-server": "^0.4.0",
     "vscode-languageclient": "^9.0.0"
   },
