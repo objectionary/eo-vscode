@@ -64,7 +64,7 @@ suite("Parsing error checks", () => {
                 source: "ex"
             },
             {
-                message: "extraneous input '\\n' expecting <EOF>",
+                message: "mismatched input ']' expecting <EOF>",
                 range: toRange(20, 0, 20, 0),
                 severity: vscode.DiagnosticSeverity.Error,
                 source: "ex"

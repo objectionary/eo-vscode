@@ -55,6 +55,10 @@ jobs:
         run: |
           npm run test
 
+      - name: Prepare grammar
+        run: |
+          npm run get-grammar
+
       - name: Run end-to-end tests
         run: |
           xvfb-run -a npm run end-to-end-test
@@ -66,7 +70,6 @@ jobs:
       - name: Pre-publish routine
         run: |
           npm run vscode:prepublish
-          npm run get-grammar
 
           # Reference: https://github.com/bahmutov/eleventy-example/blob/main/.github/workflows/ci.yml#L27
 
