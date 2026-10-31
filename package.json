@@ -84,7 +84,7 @@
     "plist": "^3.1.0",
     "ts-node": "^10.9.1",
     "typedoc": "^0.28.0",
-    "typescript": "^5.0.0"
+    "typescript": "^7.0.0"
   },
   "displayName": "EO",
   "engines": {
