@@ -58,7 +58,7 @@
   "dependencies": {
     "@vscode/vsce": "^4.0.0",
     "eo-lsp-server": "^0.4.0",
-    "vscode-languageclient": "^9.0.0"
+    "vscode-languageclient": "^11.0.0"
   },
   "description": "A language extension for the EO Programming Language. Provides syntax highlighting and parsing error checking.",
   "devDependencies": {
@@ -69,7 +69,7 @@
     "@types/mocha": "^10.0.1",
     "@types/node": "^26.0.0",
     "@types/plist": "^3.0.5",
-    "@types/vscode": "^1.63.0",
+    "@types/vscode": "^1.91.0",
     "@typescript-eslint/eslint-plugin": "^8.0.0",
     "@typescript-eslint/parser": "^8.0.0",
     "@vscode/test-electron": "^2.1.2",
@@ -90,7 +90,7 @@
   "displayName": "EO",
   "engines": {
     "node": ">=22.0.0",
-    "vscode": "^1.63.0"
+    "vscode": "^1.91.0"
   },
   "icon": "icons/cactus-128.png",
   "keywords": [
