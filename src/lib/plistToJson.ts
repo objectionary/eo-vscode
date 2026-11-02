@@ -30,7 +30,8 @@ export function plistToJson(input: string, output: string) {
     fs.writeFileSync(output, JSON.stringify(json, null, 2));
   } catch (error) {
     throw new Error(
-      `Failed to convert syntax file: ${error instanceof Error ? error.message : String(error)}`
+      `Failed to convert syntax file: ${error instanceof Error ? error.message : String(error)}`,
+      { cause: error }
     );
   }
 }
