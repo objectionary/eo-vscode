@@ -4,23 +4,12 @@
 import tsParser from "@typescript-eslint/parser";
 import typescriptEslint from "@typescript-eslint/eslint-plugin";
 import js from "@eslint/js";
-
-import { FlatCompat } from "@eslint/eslintrc";
-import { fileURLToPath } from "url";
-import path from "path";
-
-const compat = new FlatCompat({
-    baseDirectory: path.dirname(fileURLToPath(import.meta.url)),
-    recommendedConfig: js.configs.recommended,
-    allConfig: js.configs.all
-});
+import n from "eslint-plugin-n";
 
 export default [
-    ...compat.extends(
-        "eslint:recommended",
-        "plugin:@typescript-eslint/recommended",
-        "plugin:n/recommended-module",
-    ),
+    js.configs.recommended,
+    ...typescriptEslint.configs["flat/recommended"],
+    n.configs["flat/recommended-module"],
     {
         languageOptions: {
             parser: tsParser,

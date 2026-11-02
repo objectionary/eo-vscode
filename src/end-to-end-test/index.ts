@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import * as path from "path";
-import * as Mocha from "mocha";
+import Mocha from "mocha";
 import { globSync } from "glob";
 
 /**
