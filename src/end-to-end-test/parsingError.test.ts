@@ -58,7 +58,7 @@ suite("Parsing error checks", () => {
 
         await testDiagnostics(docUri, [
             {
-                message: "extraneous input '\\n' expecting {COMMENTARY, 'Q', 'QQ', '*', '$', '[', '(', '@', '^', '~', BYTES, STRING, INT, FLOAT, HEX, NAME, TEXT}",
+                message: "extraneous input '\\n' expecting {COMMENTARY, 'Q', '*', '$', '[', '(', '@', '^', BYTES, STRING, INT, FLOAT, HEX, NAME, TEXT}",
                 range: toRange(6, 0, 6, 0),
                 severity: vscode.DiagnosticSeverity.Error,
                 source: "ex"
