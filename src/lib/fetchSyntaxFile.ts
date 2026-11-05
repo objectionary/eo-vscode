@@ -3,6 +3,7 @@
 
 import * as fs from "fs";
 import * as https from "https";
+import { pipeline } from "stream";
 
 /**
  * Downloads a syntax file from the specified URL and saves it to the output path
@@ -33,14 +34,21 @@ export function fetchSyntaxFile(url: string, output: string): Promise<void> {
           return;
         }
         const stream = fs.createWriteStream(output);
-        stream.on("finish", () => {
-          stream.close();
-          resolve();
+        let opened = false;
+        stream.once("open", () => {
+          opened = true;
         });
-        stream.on("error", (err) => {
-          reject(err);
+        pipeline(response, stream, (error) => {
+          if (error) {
+            if (opened) {
+              fs.unlink(output, () => reject(error));
+            } else {
+              reject(error);
+            }
+          } else {
+            resolve();
+          }
         });
-        response.pipe(stream);
       })
       .on("error", (err) => {
         reject(err);
