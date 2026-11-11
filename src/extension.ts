@@ -48,6 +48,9 @@ export function activate(context: ExtensionContext) {
         }
     };
 
+    const watcher = workspace.createFileSystemWatcher("**/.clientrc");
+    context.subscriptions.push(watcher);
+
     // Options to control the language client
     const clientOptions: LanguageClientOptions = {
 
@@ -56,7 +59,7 @@ export function activate(context: ExtensionContext) {
         synchronize: {
 
             // Notify the server about file changes to '.clientrc files contained in the workspace
-            fileEvents: workspace.createFileSystemWatcher("**/.clientrc")
+            fileEvents: watcher
         }
     };
 
