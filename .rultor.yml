@@ -3,16 +3,16 @@
 ---
 # yamllint disable rule:line-length
 docker:
-    image: yegor256/rultor-image:1.13.0
+    image: yegor256/rultor-image:1.23.1
 assets:
     pat.txt: yegor256/objectionary-secrets#azure-devops-pat.txt
 install: |
-    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.2/install.sh | bash
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.41.0/install.sh | bash
     source ~/.bashrc
     export NVM_DIR="$HOME/.nvm"
     [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
     [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
-    nvm install 18
+    nvm install 24
     npm install -g @vscode/vsce
 release:
     script: |-
