@@ -65,7 +65,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
 
     // Create the language client.
     client = new LanguageClient(
-        "eoLanguageServer",
+        "eo",
         "EO Language Server",
         serverOptions,
         clientOptions
