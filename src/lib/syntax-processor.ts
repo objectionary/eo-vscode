@@ -5,6 +5,7 @@ import * as path from "path";
 import * as fs from "fs";
 import { plistToJson } from "./plistToJson";
 import { fetchSyntaxFile } from "./fetchSyntaxFile";
+import { syntaxFileName } from "./syntaxFileName";
 
 /**
  * Downloads a syntax file from URL and converts it to JSON format
@@ -29,7 +30,13 @@ async function run(): Promise<void> {
     console.error("Please provide a URL to the syntax file");
     process.exit(1);
   }
-  const name = path.basename(url);
+  let name: string;
+  try {
+    name = syntaxFileName(url);
+  } catch (error) {
+    console.error("✗", error instanceof Error ? error.message : error);
+    process.exit(1);
+  }
   const input = path.resolve("download");
   const output = path.resolve("out");
   try {
