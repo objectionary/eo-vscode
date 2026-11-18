@@ -26,9 +26,9 @@ let client: LanguageClient;
  * options are set to define the type of document for which the
  * extension will run.
  * @param context - ExtensionContext object used by vscode
- * @returns {void}
+ * @returns A promise that rejects when the server fails to launch
  */
-export function activate(context: ExtensionContext) {
+export async function activate(context: ExtensionContext): Promise<void> {
     const serverModule = context.asAbsolutePath(
         path.join("node_modules", "eo-lsp-server", "dist", "index.js")
     );
@@ -72,7 +72,7 @@ export function activate(context: ExtensionContext) {
     );
 
     // Start the client. This will also launch the server
-    client.start();
+    await client.start();
 }
 
 /**
