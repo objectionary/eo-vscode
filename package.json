@@ -9,15 +9,15 @@
   "contributes": {
     "configuration": {
       "properties": {
-        "languageServerExample.maxNumberOfProblems": {
-          "default": 100,
-          "description": "Controls the maximum number of problems produced by the server.",
+        "eo.limit": {
+          "default": 1000,
+          "description": "Maximum number of diagnostics reported per file.",
           "scope": "resource",
           "type": "number"
         },
-        "languageServerExample.trace.server": {
+        "eo.trace.server": {
           "default": "off",
-          "description": "Traces the communication between VS Code and the language server.",
+          "description": "Traces the communication between VS Code and the EO language server.",
           "enum": [
             "off",
             "messages",
@@ -27,7 +27,7 @@
           "type": "string"
         }
       },
-      "title": "Configuration",
+      "title": "EO",
       "type": "object"
     },
     "grammars": [

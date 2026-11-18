@@ -65,7 +65,7 @@ export function activate(context: ExtensionContext) {
 
     // Create the language client.
     client = new LanguageClient(
-        "eoLanguageServer",
+        "eo",
         "EO Language Server",
         serverOptions,
         clientOptions

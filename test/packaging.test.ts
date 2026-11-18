@@ -16,4 +16,10 @@ describe("extension packaging", () => {
       .toBe(manifest.devDependencies["@vscode/vsce"]);
     expect(lock.packages["node_modules/@vscode/vsce"].dev).toBe(true);
   });
+
+  it("contributes settings under the section the server reads", () => {
+    const keys = Object.keys(manifest.contributes.configuration.properties);
+    expect(keys).toEqual(["eo.limit", "eo.trace.server"]);
+    expect(manifest.contributes.configuration.properties["eo.limit"].default).toBe(1000);
+  });
 });
