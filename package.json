@@ -112,7 +112,7 @@
     "get-grammar": "sh ./scripts/get-grammar.sh",
     "lint": "eslint ./src --ext .ts,.tsx",
     "test": "npx jest --coverage",
-    "vscode:prepublish": "npm run compile",
+    "vscode:prepublish": "npm run compile && npm run get-grammar",
     "watch": "tsc -b -w"
   },
   "version": "0.0.0"
